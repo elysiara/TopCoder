@@ -1,0 +1,90 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TopCoderSingles"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    x:Class="TopCoderSingles.MainPage"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
+    <Page.Background>
+        <ThemeResource ResourceKey="ApplicationPageBackgroundThemeBrush"/>
+    </Page.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer
+            Grid.Row="0">
+            <TextBlock
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="10,10,10,10"
+                TextWrapping="Wrap"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                Text="{Binding DisplayText}"/>
+        </ScrollViewer>
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <ProgressBar
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="10,10,10,10"
+                Height="20"
+                Value="{Binding progressPercent}"
+                Visibility="{Binding progressVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
+        </StackPanel>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.Content>
+                <StackPanel
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Text="Practice Problem"
+                        Margin="0,0,10,0"/>
+                    <ComboBox
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        ItemsSource="{Binding PracticeProblems}"
+                        SelectedIndex="{Binding SelectedProblemIndex, Mode=TwoWay}"/>
+                </StackPanel>
+            </CommandBar.Content>
+            <AppBarButton
+                Label="Definition"
+                Command="{Binding ShowDefinition}">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;"/>
+            </AppBarButton>
+            <AppBarButton
+                Label="Code"
+                Command="{Binding ShowCode}">
+                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE943;"/>
+            </AppBarButton>
+            <AppBarSeparator/>
+            <AppBarButton
+                Label="Run Once"
+                Command="{Binding RunOnce}"
+                Icon="Play"/>
+            <AppBarButton
+                Label="Average"
+                Command="{Binding RunforAverage}"
+                Icon="RepeatAll"/>
+            <AppBarSeparator/>
+            <AppBarButton
+                Label="Cancel"
+                Command="{Binding Cancel}"
+                Icon="Cancel"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+</Page>
