@@ -110,7 +110,8 @@ namespace TopCoderSingles
                 "Iditarod",
                 "Bullets",
                 "Street Parking",
-                "ABBA"
+                "ABBA",
+                "A Tale of Three Cities"
             };
             SelectedProblemIndex = 0;
 
@@ -245,6 +246,8 @@ namespace TopCoderSingles
                     return new StreetParking();
                 case 9:
                     return new ABBA();
+                case 10:
+                    return new ATaleOfThreeCities();
                 default:
                     DisplayText += "How did you get here? This problem doesn't exist!";
                     DisplayText += "\r\n";
