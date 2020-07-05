@@ -124,6 +124,7 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Practice Problems\Abacus.cs" />
     <Compile Include="Practice Problems\ABBA.cs" />
     <Compile Include="Practice Problems\ATaleOfThreeCities.cs" />
     <Compile Include="Practice Problems\Bullets.cs" />

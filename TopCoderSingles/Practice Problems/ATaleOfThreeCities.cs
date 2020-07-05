@@ -10,7 +10,47 @@ namespace TopCoderSingles.Practice_Problems
 
         public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1499/3281/3543/2/1499";
 
-        public override string CodeAsString => "Add code later";
+        public override string CodeAsString => @"            double connect(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy)
+            {
+                // Task:
+                // ax and ay are the positions of subway stations in A
+                // bx and by are the positions of subway stations in A
+                // cx and cy are the positions of subway stations in A
+
+                // Find the shortest possible distance between any station in A and B, B and C and A and C
+
+                // Return the sum of the two shortest distances
+
+                List<double> minDistanceBetween = new List<double>()
+                {
+                    minDistanceBetweenCities(ax, ay, bx, by),
+                    minDistanceBetweenCities(bx, by, cx, cy),
+                    minDistanceBetweenCities(ax, ay, cx, cy)
+                };
+
+                minDistanceBetween.Remove(minDistanceBetween.Max());
+
+                return minDistanceBetween.Sum();
+            }
+
+            double minDistanceBetweenCities(int[] city1x, int[] city1y, int[] city2x, int[] city2y)
+            {
+                double shortestDistance = 0;
+
+                for (int i = 0; i < city1x.Length; i++)
+                {
+                    for (int j = 0; j < city2x.Length; j++)
+                    {
+                        double distance = Math.Sqrt(Math.Pow(city1x[i] - city2x[j], 2) + Math.Pow(city1y[i] - city2y[j], 2));
+
+                        if ((i == 0 && j == 0) || (distance < shortestDistance))
+                            shortestDistance = distance;
+                    }
+                }
+
+                return shortestDistance;
+            }
+";
 
         protected override IExample[] Examples => new IExample[]
         {

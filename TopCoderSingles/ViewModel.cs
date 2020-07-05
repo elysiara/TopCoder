@@ -111,7 +111,8 @@ namespace TopCoderSingles
                 "Bullets",
                 "Street Parking",
                 "ABBA",
-                "A Tale of Three Cities"
+                "A Tale of Three Cities",
+                "Abacus"
             };
             SelectedProblemIndex = 0;
 
@@ -248,6 +249,8 @@ namespace TopCoderSingles
                     return new ABBA();
                 case 10:
                     return new ATaleOfThreeCities();
+                case 11:
+                    return new Abacus();
                 default:
                     DisplayText += "How did you get here? This problem doesn't exist!";
                     DisplayText += "\r\n";
