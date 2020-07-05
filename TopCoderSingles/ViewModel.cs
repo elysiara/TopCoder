@@ -109,7 +109,8 @@ namespace TopCoderSingles
                 "Whisper",
                 "Iditarod",
                 "Bullets",
-                "Street Parking"
+                "Street Parking",
+                "ABBA"
             };
             SelectedProblemIndex = 0;
 
@@ -242,6 +243,8 @@ namespace TopCoderSingles
                     return new Bullets();
                 case 8:
                     return new StreetParking();
+                case 9:
+                    return new ABBA();
                 default:
                     DisplayText += "How did you get here? This problem doesn't exist!";
                     DisplayText += "\r\n";
