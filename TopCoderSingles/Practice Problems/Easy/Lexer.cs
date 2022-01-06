@@ -3,13 +3,11 @@ using System.Linq;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    public class Lexer : ProblemBase
+    public class Lexer : IProblem
     {
-        public override string Name => "Lexer";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1170/1047/1047/1/1170";
-
-        public override string CodeAsString => @"        public string[] tokenize(string[] tokens, string input)
+        public string Name => "Lexer";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1170/1047/1047/1/1170";
+        public string CodeAsString => @"        public string[] tokenize(string[] tokens, string input)
         {
             // Initialise
             List<string> consumed = new List<string>();
@@ -57,17 +55,15 @@ namespace TopCoderSingles.Practice_Problems
             return consumed.ToArray();
         }
 ";
-
-        protected override IExample[] Examples => new LexerExample[]
-        {
+        public IExample[] Examples => new LexerExample[]
+{
             new LexerExample((new string[]{"ab","aba","A"},"ababbbaAab"),new string[]{ "aba", "A", "ab" }),
             new LexerExample((new string[]{"a","a","aa","aaa","aaaa","aaaaa","aa"},"aaaaaaaaaaaaaaaaaaaaaaaaa"),new string[]{ "aaaaa", "aaaaa", "aaaaa", "aaaaa", "aaaaa" }),
             new LexerExample((new string[]{"wow","wo","w"},"awofwwofowwowowowwwooo"),new string[]{ "wo", "w", "wo", "w", "wow", "wow", "w", "wo" }),
             new LexerExample((new string[]{"int","double","long","char","boolean","byte","float"},"intlongdoublecharintintboolean"),new string[]{ "int", "long", "double", "char", "int", "int", "boolean" }),
             new LexerExample((new string[]{ },"Great"),new string[]{ }),
             new LexerExample((new string[]{"AbCd","dEfG","GhIj"},"abCdEfGhIjAbCdEfGhIj"),new string[]{ "dEfG", "AbCd", "GhIj" })
-        };
-
+};
         protected class LexerExample : ExampleBase<(string[] tokens, string input), string[]>
         {
             public LexerExample((string[], string) inputs, string[] correctOutput) : base(inputs, correctOutput)

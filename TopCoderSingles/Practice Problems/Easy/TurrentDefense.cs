@@ -2,13 +2,11 @@
 
 namespace TopCoderSingles.Practice_Problems
 {
-    public class TurretDefense : ProblemBase
+    public class TurretDefense : IProblem
     {
-        public override string Name => "Turret Defense";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1347/2153/2323/1/1347";
-
-        public override string CodeAsString => @"        public int firstMiss(int[] xs, int[] ys, int[] times)
+        public string Name => "Turret Defense";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1347/2153/2323/1/1347";
+        public string CodeAsString => @"        public int firstMiss(int[] xs, int[] ys, int[] times)
         {
             // Initialise start position and time
             int startX = 0;
@@ -39,9 +37,8 @@ namespace TopCoderSingles.Practice_Problems
             return -1;
         }
 ";
-
-        protected override IExample[] Examples => new TurretDefenseExample[]
-        {
+        public IExample[] Examples => new TurretDefenseExample[]
+{
             new TurretDefenseExample((
                 new int[]{3,5,6},
                 new int[]{7,5,6},
@@ -72,8 +69,7 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{1,2,3,4,15},
                 new int[]{100,200,300,400,405}),
                 4)
-        };
-
+};
         protected class TurretDefenseExample : ExampleBase<(int[] xs, int[] ys, int[] times), int>
         {
             public TurretDefenseExample((int[] xs, int[] ys, int[] times) inputs, int correctOutput) : base(inputs, correctOutput)

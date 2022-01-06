@@ -124,7 +124,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Practice Problems\EnumerationExtension.cs" />
     <Compile Include="Practice Problems\Hard\AToughGame.cs" />
+    <Compile Include="Practice Problems\IProblem.cs" />
     <Compile Include="Practice Problems\Medium\Abacus.cs" />
     <Compile Include="Practice Problems\Medium\ABBA.cs" />
     <Compile Include="Practice Problems\Medium\ATaleOfThreeCities.cs" />
@@ -133,12 +135,13 @@
     <Compile Include="Practice Problems\Easy\Iditarod.cs" />
     <Compile Include="Practice Problems\Easy\InterestingDigits.cs" />
     <Compile Include="Practice Problems\Easy\Lexer.cs" />
-    <Compile Include="Practice Problems\Base Classes\ProblemBase.cs" />
     <Compile Include="Practice Problems\Easy\StreetParking.cs" />
     <Compile Include="Practice Problems\Easy\Substitute.cs" />
     <Compile Include="Practice Problems\Easy\TurrentDefense.cs" />
     <Compile Include="Practice Problems\Easy\Whisper.cs" />
     <Compile Include="Practice Problems\Easy\WidgetRepairs.cs" />
+    <Compile Include="Practice Problems\ProblemFactory.cs" />
+    <Compile Include="Practice Problems\ProblemsList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel.cs" />
   </ItemGroup>

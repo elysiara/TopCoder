@@ -4,13 +4,11 @@ namespace TopCoderSingles.Practice_Problems
 {
     // Example 4 fails, but I'm not sure why yet
 
-    class ABBA : ProblemBase
+    class ABBA : IProblem
     {
-        public override string Name => "ABBA";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/16527/48825/13918/2/326683";
-
-        public override string CodeAsString => @"            string canObtain(string initial, string target)
+        public string Name => "ABBA";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/16527/48825/13918/2/326683";
+        public string CodeAsString => @"            string canObtain(string initial, string target)
             { 
                 TreeBuilder tb = new TreeBuilder(initial, target);
                 return tb.answer;
@@ -72,8 +70,7 @@ namespace TopCoderSingles.Practice_Problems
         }
     }
 ";
-
-        protected override IExample[] Examples => new IExample[]{
+        public IExample[] Examples => new IExample[]{
             new ABBAExample(("B" , "ABBA"), "Possible"),
             /*  Jamie can perform the following moves:
                 Initially, the string is "B".
@@ -89,7 +86,6 @@ namespace TopCoderSingles.Practice_Problems
             new ABBAExample(("BBBBABABBBBBBA" , "BBBBABABBABBBBBBABABBBBBBBBABAABBBAA"), "Possible"),
             new ABBAExample(("A","BB"),"Impossible")
         };
-
         public class ABBAExample : ExampleBase<(string, string), string>
         {
             public ABBAExample((string, string) inputs, string correctOutput) : base(inputs, correctOutput)
@@ -165,6 +161,5 @@ namespace TopCoderSingles.Practice_Problems
             }
 
         }
-
     }
 }

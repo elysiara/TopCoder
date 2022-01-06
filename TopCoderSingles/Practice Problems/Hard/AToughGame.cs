@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class AToughGame : ProblemBase
+    class AToughGame : IProblem
     {
-        public override string Name => "A Tough Game";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/16542/49117/13968/1/326871";
-
-        public override string CodeAsString => "return to this";
-
-        protected override IExample[] Examples => new IExample[]
-        {
+        public string Name => "A Tough Game";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/16542/49117/13968/1/326871";
+        public string CodeAsString => "return to this";
+        public IExample[] Examples => new IExample[]
+{
             //This game has 2 levels. Allen will beat level 0 with probability 1, and he will beat level 1 with probability 1/2. Allen will gain 3 units of gold for beating level 0, and 4 units of gold for beating level 1.
 
             //Here is an example how Allen could have played the game:
@@ -66,8 +60,7 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{916,932,927,988,958,996,944,968,917,939,960,965,960,998,920,990,915,972,995,916,902, 968,970,962,922,959,994,915,996,996,994,986,945,947,912,946,972,951,973,965,921,910, 938,975,942,950,900,983,960,998,982,980,902,974,952,938,900,962,920,931,964,974,953, 995,946,946,903,921,923,985,919,996,930,915,991,967,996,911,999,936,1000,962,970,929, 966,960,930,920,958,926,983},
                 new int[]{583,428,396,17,163,815,31,536,175,165,532,781,29,963,331,987,599,497,380,180,780,25, 931,607,784,613,468,140,488,604,401,912,204,785,697,173,451,849,714,914,650,652,338, 336,177,147,22,652,901,548,370,9,118,487,779,567,818,440,10,868,316,666,690,714,623, 269,501,649,324,773,173,54,391,745,504,578,81,627,319,301,16,899,658,586,604,83,520, 81,181,943,157}),
                 54204.93356505282),
-        };
-
+};
         public class AToughGameExample : ExampleBase<(int[], int[]), double>
         {
             public AToughGameExample((int[], int[]) inputs, double correctOutput) : base(inputs, correctOutput)

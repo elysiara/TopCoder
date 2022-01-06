@@ -1,12 +1,10 @@
 ﻿namespace TopCoderSingles.Practice_Problems
 {
-    public class Substitute : ProblemBase
+    public class Substitute : IProblem
     {
-        public override string Name => "Substitute";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1282/1262/1333/2/1282";
-
-        public override string CodeAsString => @"        public int getValue(string key, string code)
+        public string Name => "Substitute";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1282/1262/1333/2/1282";
+        public string CodeAsString => @"        public int getValue(string key, string code)
         {
             // Initialise return value
             int returnValue = 0;
@@ -40,14 +38,12 @@
             return returnValue;
         }
 ";
-
-        protected override IExample[] Examples => new SubstituteExample[]
+        public IExample[] Examples => new SubstituteExample[]
         {
             new SubstituteExample(("TRADINGFEW","LGXWEV"),709),
             new SubstituteExample(("ABCDEFGHIJ","XJ"),0),
             new SubstituteExample(("CRYSTALBUM","MMA"),6)
         };
-
         protected class SubstituteExample : ExampleBase<(string key, string code), int>
         {
             public SubstituteExample((string, string) inputs, int correctOutput) : base(inputs, correctOutput)

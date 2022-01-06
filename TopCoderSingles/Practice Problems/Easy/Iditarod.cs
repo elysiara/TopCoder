@@ -5,13 +5,11 @@ using System.Linq;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    public class Iditarod : ProblemBase
+    public class Iditarod : IProblem
     {
-        public override string Name => "Iditarod";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1281/1536/1647/1/1281";
-
-        public override string CodeAsString => @"        public int avgMinutes(string[] times)
+        public string Name => "Iditarod";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1281/1536/1647/1/1281";
+        public string CodeAsString => @"        public int avgMinutes(string[] times)
         {
             DateTime startDateTime = DateTime.ParseExact(\""08:00 AM, DAY 1"",""hh:mm tt, 'DAY' d"", CultureInfo.CurrentCulture);
 
@@ -34,14 +32,12 @@ namespace TopCoderSingles.Practice_Problems
             return averageMinutesInt;
         }
 ";
-
-        protected override IExample[] Examples => new IditarodExample[]
+        public IExample[] Examples => new IditarodExample[]
         {
             new IditarodExample(new string[]{"12:00 PM, DAY 1","12:01 PM, DAY 1"},241),
             new IditarodExample(new string[]{"12:00 AM, DAY 2"},960),
             new IditarodExample(new string[]{"02:00 PM, DAY 19","02:00 PM, DAY 20", "01:58 PM, DAY 20"},27239)
         };
-
         protected class IditarodExample : ExampleBase<string[], int>
         {
             public IditarodExample(string[] inputs, int correctOutput) : base(inputs, correctOutput)

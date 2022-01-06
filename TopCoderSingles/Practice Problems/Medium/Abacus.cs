@@ -5,13 +5,11 @@ using System.Text.RegularExpressions;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class Abacus : ProblemBase
+    class Abacus : IProblem
     {
-        public override string Name => "Abacus";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1626/4170/4512/2/1626";
-
-        public override string CodeAsString => @"            string[] add(string[] original, int val)
+        public string Name => "Abacus";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1626/4170/4512/2/1626";
+        public string CodeAsString => @"            string[] add(string[] original, int val)
             {
                 int factor = 100000;
                 int value = 0;
@@ -43,8 +41,7 @@ namespace TopCoderSingles.Practice_Problems
                 return newAbacusStrings;
             }
 ";
-
-        protected override IExample[] Examples => new IExample[]
+        public IExample[] Examples => new IExample[]
             {
                 // When we add 5 to the original, it is necessary to "carry" 1 to the next thread up. This shows the arithmetic 699979 + 5 = 699984
                 new AbacusExample((
@@ -61,7 +58,6 @@ namespace TopCoderSingles.Practice_Problems
                     new string[] {"o---oooooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo" }, 1),
                     new string[] {"---ooooooooo", "ooooooooo---", "ooooooooo---", "ooooooooo---", "ooooooooo---", "ooooooooo---" })
             };
-
         public class AbacusExample : ExampleBase<(string[], int), string[]>
         {
             public AbacusExample((string[], int) inputs, string[] correctOutput) : base(inputs, correctOutput)

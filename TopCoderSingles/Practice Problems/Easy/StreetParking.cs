@@ -1,12 +1,10 @@
 ﻿namespace TopCoderSingles.Practice_Problems
 {
-    public class StreetParking : ProblemBase
+    public class StreetParking : IProblem
     {
-        public override string Name => "Street Parking";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1280/1635/1753/2/1280";
-
-        public override string CodeAsString => @"            public int freeParks(string street)
+        public string Name => "Street Parking";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1280/1635/1753/2/1280";
+        public string CodeAsString => @"            public int freeParks(string street)
             {
                 int freeParks = 0;
 
@@ -65,15 +63,13 @@
         return street.Substring(i + 2, 1) != ""B"";
     }
 ";
-
-        protected override IExample[] Examples => new StreetParkingExample[]
-        {
+        public IExample[] Examples => new StreetParkingExample[]
+{
             new StreetParkingExample("---B--S-D--S--",4),
             new StreetParkingExample("DDBDDBDDBDD",0),
             new StreetParkingExample("--S--S--S--S--",2),
             new StreetParkingExample("SSD-B---BD-DDSB-----S-S--------S-B----BSB-S--B-S-D",14)
-        };
-
+};
         protected class StreetParkingExample : ExampleBase<string, int>
         {
             public StreetParkingExample(string inputs, int correctOutput) : base(inputs, correctOutput)

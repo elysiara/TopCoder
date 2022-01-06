@@ -4,13 +4,11 @@ using System.Linq;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class ATaleOfThreeCities : ProblemBase
+    class ATaleOfThreeCities : IProblem
     {
-        public override string Name => "A Tale of Three Cities";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1499/3281/3543/2/1499";
-
-        public override string CodeAsString => @"            double connect(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy)
+        public string Name => "A Tale of Three Cities";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1499/3281/3543/2/1499";
+        public string CodeAsString => @"            double connect(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy)
             {
                 // Task:
                 // ax and ay are the positions of subway stations in A
@@ -51,9 +49,8 @@ namespace TopCoderSingles.Practice_Problems
                 return shortestDistance;
             }
 ";
-
-        protected override IExample[] Examples => new IExample[]
-        {
+        public IExample[] Examples => new IExample[]
+{
             // The tunnel connecting the subway station in city A at(0,2) with the subway station in city C at(1,3) has a length of about 1.41
             // and the tunnel connecting the subway station in city A at(0,1) with the subway station in city B at(2,1) has a length of 2.
             new ATaleOfThreeCitiesExample((
@@ -80,8 +77,7 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{86,75,78,81,89,77,83,88,99,77},
                 new int[]{10,20,30,40,50,60,70,80,90,100}),
                 50.323397776611024)
-        };
-
+};
         public class ATaleOfThreeCitiesExample : ExampleBase<(int[], int[], int[], int[], int[], int[]), double>
         {
             public ATaleOfThreeCitiesExample((int[], int[], int[], int[], int[], int[]) inputs, double correctOutput) : base(inputs, correctOutput)

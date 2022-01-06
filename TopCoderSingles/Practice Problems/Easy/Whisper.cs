@@ -3,13 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    public class Whisper:ProblemBase
+    public class Whisper : IProblem
     {
-        public override string Name => "Whisper";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1171/1132/1147/1/1171";
-
-        public override string CodeAsString => @"        public string toWhom(string[] usernames, string typed)
+        public string Name => "Whisper";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1171/1132/1147/1/1171";
+        public string CodeAsString => @"        public string toWhom(string[] usernames, string typed)
         {
             // Check that the typed text is long enough to proceed
             if (typed.Length < 5)
@@ -43,8 +41,7 @@ typed = typed.Remove(0, 5);
             return ""user is not logged in"";
         }
 ";
-
-        protected override IExample[] Examples => new WhisperExample[]
+        public IExample[] Examples => new WhisperExample[]
         {
             new WhisperExample((new string[]{"John","John Doe","John Doe h"},"/msg John Doe hi there"),"John Doe"),
             new WhisperExample((new string[]{ "John","John Doe","John Doe h"},"/MSG jOHN dOE HI THERE"),"John Doe"),
@@ -56,7 +53,6 @@ typed = typed.Remove(0, 5);
             new WhisperExample((new string[]{ "Wow"},"/msg Wow "),"Wow"),
             new WhisperExample((new string[]{ "msg"},"/msg"),"not a whisper")
         };
-
         protected class WhisperExample : ExampleBase<(string[] usernames, string typed), string>
         {
             public WhisperExample((string[] usernames, string typed) inputs, string correctOutput) : base(inputs, correctOutput)

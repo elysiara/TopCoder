@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using TopCoderSingles.Helper;
 using TopCoderSingles.Practice_Problems;
@@ -10,7 +11,11 @@ namespace TopCoderSingles
         #region Template
         #endregion
 
+        private ProblemFactory pf = new ProblemFactory();
+
         #region Fields
+
+        private IProblem _SelectedProblem;
 
         private string _DisplayText;
         private string[] _PracticeProblems;
@@ -22,11 +27,24 @@ namespace TopCoderSingles
         private bool canCancel;
 
         private Progress<int> progress;
-        private CancellationTokenSource tokenSource = null;
+        private CancellationTokenSource tokenSource = null;        
 
         #endregion
 
         #region ObservableProperties
+
+        public IProblem SelectedProblem
+        {
+            get { return _SelectedProblem; }
+            set
+            {
+                if (_SelectedProblem != value)
+                {
+                    _SelectedProblem = value;
+                    OnPropertyChanged(nameof(SelectedProblem));
+                }
+            }
+        }
 
         public string DisplayText
         {
@@ -63,6 +81,8 @@ namespace TopCoderSingles
                 {
                     _SelectedProblemIndex = value;
                     OnPropertyChanged(nameof(SelectedProblemIndex));
+
+                    SelectedProblem = pf.GetProblemFromIndex(value);
                 }
             }
         }
@@ -99,22 +119,11 @@ namespace TopCoderSingles
         public ViewModel()
         {
             DisplayText = "Welcome to my TopCoder Arena Practice Problems solutions!\r\nSelect a problem and click run to test.\r\n\r\n";
-            PracticeProblems = new string[]
-            {
-                "Subsitute",
-                "Turret Defense",
-                "Lexer",
-                "Widget Repairs",
-                "Interesting Digits",
-                "Whisper",
-                "Iditarod",
-                "Bullets",
-                "Street Parking",
-                "ABBA",
-                "A Tale of Three Cities",
-                "Abacus"
-            };
+
+            PracticeProblems = EnumerationExtension.GetEnumDescriptions(typeof(ProblemsList)).ToArray();
+
             SelectedProblemIndex = 0;
+            SelectedProblem = pf.GetProblemFromIndex(0);
 
             canDoSomething = true;
             canCancel = false;
@@ -148,15 +157,13 @@ namespace TopCoderSingles
 
         private async void ShowProblemDefinition()
         {
-            ProblemBase problem = GetProblemFromIndex(SelectedProblemIndex);
-            DisplayText = $"{problem.Name}\r\n\r\nOpening page {problem.Link}\r\n\r\n";
-            await Windows.System.Launcher.LaunchUriAsync(new Uri(problem.Link));
+            DisplayText = $"{SelectedProblem.Name}\r\n\r\nOpening page {SelectedProblem.Link}\r\n\r\n";
+            await Windows.System.Launcher.LaunchUriAsync(new Uri(SelectedProblem.Link));
         }
 
         private void ShowProblemCode()
         {
-            ProblemBase problem = GetProblemFromIndex(SelectedProblemIndex);
-            DisplayText = $"{problem.Name}\r\n\r\n{problem.CodeAsString}";
+            DisplayText = $"{SelectedProblem.Name}\r\n\r\n{SelectedProblem.CodeAsString}";
         }
 
         private async void RunProblemOnce()
@@ -168,13 +175,11 @@ namespace TopCoderSingles
             tokenSource = new CancellationTokenSource();
             CancellationToken token = tokenSource.Token;
 
-            ProblemBase problem = GetProblemFromIndex(SelectedProblemIndex);
-            DisplayText = $"{problem.Name}\r\n\r\nRunning each example once:\r\n\r\n";
+            DisplayText = $"{SelectedProblem.Name}\r\n\r\nRunning each example once:\r\n\r\n";
 
             try
             {
-                await problem.TestExamplesOnceTask(token, progress);
-                DisplayText += problem.answer;
+                DisplayText += await pf.TestExamplesOnceTask(SelectedProblem, token, progress);
             }
 
             catch (OperationCanceledException oce)
@@ -196,13 +201,11 @@ namespace TopCoderSingles
             tokenSource = new CancellationTokenSource();
             CancellationToken token = tokenSource.Token;
 
-            ProblemBase problem = GetProblemFromIndex(SelectedProblemIndex);
-            DisplayText = $"{problem.Name}\r\n\r\nRunning each example multiple times to average:\r\n\r\n";
+            DisplayText = $"{SelectedProblem.Name}\r\n\r\nRunning each example multiple times to average:\r\n\r\n";
 
             try
             {
-                await problem.TestExamplesForAverageTask(token, progress);
-                DisplayText += problem.answer;
+                DisplayText += await pf.TestExamplesForAverageTask(SelectedProblem, token, progress);
             }
 
             catch (OperationCanceledException oce)
@@ -220,41 +223,6 @@ namespace TopCoderSingles
             if (tokenSource != null)
             {
                 tokenSource.Cancel();
-            }
-        }
-
-        private ProblemBase GetProblemFromIndex(int Index)
-        {
-            switch (Index)
-            {
-                case 0:
-                    return new Substitute();
-                case 1:
-                    return new TurretDefense();
-                case 2:
-                    return new Lexer();
-                case 3:
-                    return new WidgetRepairs();
-                case 4:
-                    return new InterestingDigits();
-                case 5:
-                    return new Whisper();
-                case 6:
-                    return new Iditarod();
-                case 7:
-                    return new Bullets();
-                case 8:
-                    return new StreetParking();
-                case 9:
-                    return new ABBA();
-                case 10:
-                    return new ATaleOfThreeCities();
-                case 11:
-                    return new Abacus();
-                default:
-                    DisplayText += "How did you get here? This problem doesn't exist!";
-                    DisplayText += "\r\n";
-                    return null;
             }
         }
 

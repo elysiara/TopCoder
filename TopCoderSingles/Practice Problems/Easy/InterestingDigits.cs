@@ -3,13 +3,11 @@ using System.Linq;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class InterestingDigits : ProblemBase
+    class InterestingDigits : IProblem
     {
-        public override string Name => "Interesting Digits";
-
-        public override string Link => "https://arena.topcoder.com/#/u/practiceCode/1262/1435/1523/2/1262";
-
-        public override string CodeAsString => @"        public int[] digits(int numBase)
+        public string Name => "Interesting Digits";
+        public string Link => "https://arena.topcoder.com/#/u/practiceCode/1262/1435/1523/2/1262";
+        public string CodeAsString => @"        public int[] digits(int numBase)
         {
             List<int> interestingNumbers = new List<int>();
 
@@ -50,8 +48,7 @@ namespace TopCoderSingles.Practice_Problems
             return interestingNumbers.ToArray();
         }
 ";
-
-        protected override IExample[] Examples => new InterestingDigitsExample[]
+        public IExample[] Examples => new InterestingDigitsExample[]
         {
             new InterestingDigitsExample(10,new int[]{ 3, 9 }),
             new InterestingDigitsExample(3,new int[]{ 2 }),
@@ -59,7 +56,6 @@ namespace TopCoderSingles.Practice_Problems
             new InterestingDigitsExample(26,new int[]{ 5, 25 }),
             new InterestingDigitsExample(30,new int[]{ 29 })
         };
-
         protected class InterestingDigitsExample : ExampleBase<int, int[]>
         {
             public InterestingDigitsExample(int inputs, int[] correctOutput) : base(inputs, correctOutput)
