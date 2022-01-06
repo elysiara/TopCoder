@@ -13,9 +13,4 @@
 
         public abstract bool TestExample();
     }
-
-    public interface IExample
-    {
-        bool TestExample();
-    }
 }
