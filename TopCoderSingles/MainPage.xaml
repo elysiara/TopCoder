@@ -1,15 +1,14 @@
 ﻿<Page
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:TopCoderSingles"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:controls="using:TopCoderSingles.Controls"
+    xmlns:viewmodels="using:TopCoderSingles.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainPageVM}"
     x:Class="TopCoderSingles.MainPage"
     mc:Ignorable="d">
-    <Page.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    </Page.Resources>
     <Page.Background>
         <ThemeResource ResourceKey="ApplicationPageBackgroundThemeBrush"/>
     </Page.Background>
@@ -18,47 +17,18 @@
             <RowDefinition />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer
-            Grid.Row="0">
-            <TextBlock
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Margin="10,10,10,10"
-                TextWrapping="Wrap"
-                ScrollViewer.VerticalScrollBarVisibility="Visible"
-                Text="{Binding DisplayText}"/>
-        </ScrollViewer>
-        <StackPanel
-            Grid.Row="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-            <ProgressBar
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Margin="10,10,10,10"
-                Height="20"
-                Value="{Binding progressPercent}"
-                Visibility="{Binding progressVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
-        </StackPanel>
+        <controls:TextDisplayControl
+            DataContext="{Binding TextDisplayViewModel}"
+            Grid.Row="0"/>
+        <controls:ProgressBarControl
+            DataContext="{Binding ProgressBarViewModel}"
+            Grid.Row="1"/>
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.Content>
-                <StackPanel
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Stretch"
-                        Text="Practice Problem"
-                        Margin="0,0,10,0"/>
-                    <ComboBox
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Stretch"
-                        ItemsSource="{Binding PracticeProblems}"
-                        SelectedIndex="{Binding SelectedProblemIndex, Mode=TwoWay}"/>
-                </StackPanel>
+                <controls:ProblemSelectionControl
+                    DataContext="{Binding ProblemSelectionViewModel}"/>
             </CommandBar.Content>
             <AppBarButton
                 Label="Definition"

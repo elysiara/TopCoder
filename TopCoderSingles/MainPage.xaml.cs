@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml.Controls;
+using TopCoderSingles.ViewModels;
 
 namespace TopCoderSingles
 {
@@ -11,7 +12,7 @@ namespace TopCoderSingles
         {
             this.InitializeComponent();
 
-            ViewModel VM = new ViewModel();
+            MainPageVM VM = new MainPageVM();
             this.DataContext = VM;
         }
     }
