@@ -36,7 +36,7 @@ namespace TopCoderSingles.Practice_Problems
             return -1;
         }";
 
-        public GenericTester<(string[], string), int> BulletTester = new GenericTester<(string[], string), int>();
+        private GenericTester<(string[] guns, string bullet), int> BulletTester = new GenericTester<(string[] guns, string bullet), int>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await BulletTester.TestExamplesOnceTask(this, token, progress);
@@ -58,7 +58,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return example.Output.Equals(Match(example.Inputs.guns, example.Inputs.bullet));
         }
-        public int Match(string[] guns, string bullet)
+        private int Match(string[] guns, string bullet)
         {
             // Initialise counter for the guns
             int i = 0;

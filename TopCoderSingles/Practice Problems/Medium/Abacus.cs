@@ -44,7 +44,7 @@ namespace TopCoderSingles.Practice_Problems
             }
 ";
 
-        public GenericTester<(string[] original, int val), string[]> AbacusTester = new GenericTester<(string[] original, int val), string[]>();
+        private GenericTester<(string[] original, int val), string[]> AbacusTester = new GenericTester<(string[] original, int val), string[]>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await AbacusTester.TestExamplesOnceTask(this, token, progress);
@@ -83,7 +83,7 @@ namespace TopCoderSingles.Practice_Problems
 
             return stringsMatch.All(x => x);
         }
-        string[] Add(string[] original, int val)
+        private string[] Add(string[] original, int val)
         {
             int factor = 100000;
             int value = 0;

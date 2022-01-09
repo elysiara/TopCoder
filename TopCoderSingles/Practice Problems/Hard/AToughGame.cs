@@ -11,7 +11,7 @@ namespace TopCoderSingles.Practice_Problems
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/16542/49117/13968/1/326871";
         public string CodeAsString => "return to this";
 
-        public GenericTester<(int[] prob, int[] value), double> AToughGameTester = new GenericTester<(int[] prob, int[] value), double>();
+        private GenericTester<(int[] prob, int[] value), double> AToughGameTester = new GenericTester<(int[] prob, int[] value), double>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await AToughGameTester.TestExamplesOnceTask(this, token, progress);
@@ -83,7 +83,7 @@ namespace TopCoderSingles.Practice_Problems
 
             //return output.Equals(CorrectOutput);
         }
-        double ExpectedGain(int[] prob, int[] value)
+        private double ExpectedGain(int[] prob, int[] value)
         {
             // probability of success is prob/1000
             // value is gold for that level
@@ -131,7 +131,7 @@ namespace TopCoderSingles.Practice_Problems
 
             return goldCollected;
         }
-        double LevelOutcome(int[] prob, int[] value, int level)
+        private double LevelOutcome(int[] prob, int[] value, int level)
         {
             // Initialise gold
             double gold = 0;

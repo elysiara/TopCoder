@@ -43,7 +43,7 @@ namespace TopCoderSingles.Practice_Problems
         }
 ";
 
-        public GenericTester<(string key, string code), int> SubstituteTester = new GenericTester<(string key, string code), int>();
+        private GenericTester<(string key, string code), int> SubstituteTester = new GenericTester<(string key, string code), int>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await SubstituteTester.TestExamplesOnceTask(this, token, progress);
@@ -63,7 +63,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return (example.Output.Equals(GetValue(example.Inputs.key, example.Inputs.code)));
         }
-        public int GetValue(string key, string code)
+        private int GetValue(string key, string code)
         {
             // Initialise return value
             int returnValue = 0;

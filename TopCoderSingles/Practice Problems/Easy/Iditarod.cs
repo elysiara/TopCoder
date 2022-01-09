@@ -35,7 +35,7 @@ namespace TopCoderSingles.Practice_Problems
         }
 ";
 
-        public GenericTester<string[], int> IditarodTester = new GenericTester<string[], int>();
+        private GenericTester<string[], int> IditarodTester = new GenericTester<string[], int>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await IditarodTester.TestExamplesOnceTask(this, token, progress);
@@ -55,7 +55,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return example.Output.Equals(AvgMinutes(example.Inputs));
         }
-        public int AvgMinutes(string[] times)
+        private int AvgMinutes(string[] times)
         {
             DateTime startDateTime = DateTime.ParseExact("08:00 AM, DAY 1", "hh:mm tt, 'DAY' d", CultureInfo.CurrentCulture);
 

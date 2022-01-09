@@ -68,7 +68,7 @@ namespace TopCoderSingles.Practice_Problems
     }
 ";
 
-        public GenericTester<string, int> StreetParkingTester = new GenericTester<string, int>();
+        private GenericTester<string, int> StreetParkingTester = new GenericTester<string, int>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await StreetParkingTester.TestExamplesOnceTask(this, token, progress);
@@ -89,7 +89,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return example.Output.Equals(FreeParks(example.Inputs));
         }
-        public int FreeParks(string street)
+        private int FreeParks(string street)
         {
             int freeParks = 0;
 
@@ -127,19 +127,19 @@ namespace TopCoderSingles.Practice_Problems
             }
             return freeParks;
         }
-        public bool TestPosition(string street, int i)
+        private bool TestPosition(string street, int i)
         {
             return street.Substring(i, 1) == "-";
         }
-        public bool TestBehind5m(string street, int i)
+        private bool TestBehind5m(string street, int i)
         {
             return street.Substring(i - 1, 1) != "S";
         }
-        public bool TestAhead5m(string street, int i)
+        private bool TestAhead5m(string street, int i)
         {
             return street.Substring(i + 1, 1) != "S" && street.Substring(i + 1, 1) != "B";
         }
-        public bool TestAhead10m(string street, int i)
+        private bool TestAhead10m(string street, int i)
         {
             return street.Substring(i + 2, 1) != "B";
         }

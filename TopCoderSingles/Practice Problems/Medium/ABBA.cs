@@ -73,7 +73,7 @@ namespace TopCoderSingles.Practice_Problems
     }
 ";
 
-        public GenericTester<(string initial, string target), string> ABBATester = new GenericTester<(string initial, string target), string>();
+        private GenericTester<(string initial, string target), string> ABBATester = new GenericTester<(string initial, string target), string>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await ABBATester.TestExamplesOnceTask(this, token, progress);
@@ -104,12 +104,12 @@ namespace TopCoderSingles.Practice_Problems
             string output = CanObtain(example.Inputs.initial, example.Inputs.target);
             return (output.Equals(example.Output));
         }
-        string CanObtain(string initial, string target)
+        private string CanObtain(string initial, string target)
         {
             TreeBuilder tb = new TreeBuilder(initial, target);
             return tb.answer;
         }
-        class Node
+        private class Node
         {
             public Node(string data)
             {
@@ -119,7 +119,7 @@ namespace TopCoderSingles.Practice_Problems
             public Node Left { get; set; }
             public Node Right { get; set; }
         }
-        class TreeBuilder
+        private class TreeBuilder
         {
             public string answer = "Impossible";
 

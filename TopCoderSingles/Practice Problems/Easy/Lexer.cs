@@ -59,7 +59,7 @@ namespace TopCoderSingles.Practice_Problems
         }
 ";
 
-        public GenericTester<(string[] tokens, string input), string[]> LexerTester = new GenericTester<(string[] tokens, string input), string[]>();
+        private GenericTester<(string[] tokens, string input), string[]> LexerTester = new GenericTester<(string[] tokens, string input), string[]>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await LexerTester.TestExamplesOnceTask(this, token, progress);
@@ -94,7 +94,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return (DeepEquals<string>(example.Output, Tokenize(example.Inputs.tokens, example.Inputs.input)));
         }
-        public string[] Tokenize(string[] tokens, string input)
+        private string[] Tokenize(string[] tokens, string input)
         {
             // Initialise
             List<string> consumed = new List<string>();
@@ -141,7 +141,7 @@ namespace TopCoderSingles.Practice_Problems
             }
             return consumed.ToArray();
         }
-        public bool DeepEquals<T>(T[] arr1, T[] arr2)
+        private bool DeepEquals<T>(T[] arr1, T[] arr2)
         {
             // Following function is from https://help.semmle.com/wiki/display/CSHARP/Equals+on+collections
 

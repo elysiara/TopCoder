@@ -52,7 +52,7 @@ namespace TopCoderSingles.Practice_Problems
             }
 ";
 
-        public GenericTester<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double> ATaleOfThreeCitiesTester = new GenericTester<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>();
+        private GenericTester<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double> ATaleOfThreeCitiesTester = new GenericTester<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await ATaleOfThreeCitiesTester.TestExamplesOnceTask(this, token, progress);
@@ -97,7 +97,7 @@ namespace TopCoderSingles.Practice_Problems
             // Tweak output to allow for rounding differences since TopCoder allows these to pass
             return Math.Round(output - example.Output, 13) == 0;
         }
-        double Connect(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy)
+        private double Connect(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy)
         {
             // Task:
             // ax and ay are the positions of subway stations in A
@@ -119,7 +119,7 @@ namespace TopCoderSingles.Practice_Problems
 
             return minDistanceBetween.Sum();
         }
-        double MinDistanceBetweenCities(int[] city1x, int[] city1y, int[] city2x, int[] city2y)
+        private double MinDistanceBetweenCities(int[] city1x, int[] city1y, int[] city2x, int[] city2y)
         {
             double shortestDistance = 0;
 

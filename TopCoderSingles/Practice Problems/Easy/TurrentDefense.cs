@@ -40,7 +40,7 @@ namespace TopCoderSingles.Practice_Problems
         }
 ";
 
-        public GenericTester<(int[] xs, int[] ys, int[] times), int> TurretDefenseTester = new GenericTester<(int[] xs, int[] ys, int[] times), int>();
+        private GenericTester<(int[] xs, int[] ys, int[] times), int> TurretDefenseTester = new GenericTester<(int[] xs, int[] ys, int[] times), int>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await TurretDefenseTester.TestExamplesOnceTask(this, token, progress);
@@ -87,7 +87,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return example.Output.Equals(FirstMiss(example.Inputs.xs, example.Inputs.ys, example.Inputs.times));
         }
-        public int FirstMiss(int[] xs, int[] ys, int[] times)
+        private int FirstMiss(int[] xs, int[] ys, int[] times)
         {
             // Initialise start position and time
             int startX = 0;

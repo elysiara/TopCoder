@@ -45,7 +45,7 @@ typed = typed.Remove(0, 5);
         }
 ";
 
-        public GenericTester<(string[] usernames, string typed), string> WhisperTester = new GenericTester<(string[] usernames, string typed), string>();
+        private GenericTester<(string[] usernames, string typed), string> WhisperTester = new GenericTester<(string[] usernames, string typed), string>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await WhisperTester.TestExamplesOnceTask(this, token, progress);
@@ -80,7 +80,7 @@ typed = typed.Remove(0, 5);
         {
             return example.Output.Equals(ToWhom(example.Inputs.usernames, example.Inputs.typed));
         }
-        public string ToWhom(string[] usernames, string typed)
+        private string ToWhom(string[] usernames, string typed)
         {
             // Check that the typed text is long enough to proceed
             if (typed.Length < 5)

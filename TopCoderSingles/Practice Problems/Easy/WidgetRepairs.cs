@@ -35,7 +35,7 @@ namespace TopCoderSingles.Practice_Problems
             }
 ";
 
-        public GenericTester<(int[] arrivals, int numPerDay), int> WidgetRepairsTester = new GenericTester<(int[] arrivals, int numPerDay), int>();
+        private GenericTester<(int[] arrivals, int numPerDay), int> WidgetRepairsTester = new GenericTester<(int[] arrivals, int numPerDay), int>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await WidgetRepairsTester.TestExamplesOnceTask(this, token, progress);
@@ -57,7 +57,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return example.Output.Equals(Days(example.Inputs.arrivals, example.Inputs.numPerDay));
         }
-        public int Days(int[] arrivals, int numPerDay)
+        private int Days(int[] arrivals, int numPerDay)
         {
             // Initialise the counters
             int days = 0;

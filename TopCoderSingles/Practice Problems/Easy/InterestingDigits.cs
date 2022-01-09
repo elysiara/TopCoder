@@ -52,7 +52,7 @@ namespace TopCoderSingles.Practice_Problems
         }
 ";
 
-        public GenericTester<int, int[]> InterestingDigitsTester = new GenericTester<int, int[]>();
+        private GenericTester<int, int[]> InterestingDigitsTester = new GenericTester<int, int[]>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await InterestingDigitsTester.TestExamplesOnceTask(this, token, progress);
@@ -74,7 +74,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return DeepEquals<int>(example.Output, Digits(example.Inputs));
         }
-        public int[] Digits(int numBase)
+        private int[] Digits(int numBase)
         {
             List<int> interestingNumbers = new List<int>();
 
@@ -114,7 +114,7 @@ namespace TopCoderSingles.Practice_Problems
             }
             return interestingNumbers.ToArray();
         }
-        public bool DeepEquals<T>(T[] arr1, T[] arr2)
+        private bool DeepEquals<T>(T[] arr1, T[] arr2)
         {
             // Following function is from https://help.semmle.com/wiki/display/CSHARP/Equals+on+collections
 
