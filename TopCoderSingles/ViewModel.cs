@@ -28,7 +28,7 @@ namespace TopCoderSingles
         private bool canCancel;
 
         private Progress<int> progress;
-        private CancellationTokenSource tokenSource = null;        
+        private CancellationTokenSource tokenSource = null;
 
         #endregion
 

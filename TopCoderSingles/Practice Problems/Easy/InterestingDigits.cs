@@ -61,7 +61,7 @@ namespace TopCoderSingles.Practice_Problems
         {
             return await InterestingDigitsTester.TestExamplesForAverageTask(this, token, progress);
         }
-        
+
         public IExample<int, int[]>[] Examples => new GenericExample<int, int[]>[]
         {
             new GenericExample<int, int[]>(10,new int[]{ 3, 9 }),
