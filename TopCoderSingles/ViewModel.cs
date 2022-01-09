@@ -80,7 +80,7 @@ namespace TopCoderSingles
                     _SelectedProblemIndex = value;
                     OnPropertyChanged(nameof(SelectedProblemIndex));
 
-                    SelectedProblem = pf.GetProblemFromIndex(value);
+                    SelectedProblem = pf.GetProblemFromEnum((ProblemsList)value);
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace TopCoderSingles
             PracticeProblems = EnumerationExtension.GetEnumDescriptions(typeof(ProblemsList)).ToArray();
 
             SelectedProblemIndex = 0;
-            SelectedProblem = pf.GetProblemFromIndex(0);
+            SelectedProblem = pf.GetProblemFromEnum(0);
 
             canDoSomething = true;
             canCancel = false;

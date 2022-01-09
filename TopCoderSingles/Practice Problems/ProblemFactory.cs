@@ -2,39 +2,40 @@
 {
     public class ProblemFactory
     {
-        public IDisplayableProblem GetProblemFromIndex(int Index)
+        public IDisplayableProblem GetProblemFromEnum(ProblemsList selectedValue)
         {
-            switch (Index)
+            switch (selectedValue)
             {
-                case 0:
+                case ProblemsList.Bullets:
                     return new Bullets();
-                case 1:
+                case ProblemsList.Iditarod:
                     return new Iditarod();
-                case 2:
+                case ProblemsList.InterestingDigits:
                     return new InterestingDigits();
-                case 3:
+                case ProblemsList.Lexer:
                     return new Lexer();
-                case 4:
+                case ProblemsList.StreetParking:
                     return new StreetParking();
-                case 5:
+                case ProblemsList.Substitute:
                     return new Substitute();
-                case 6:
+                case ProblemsList.TurretDefense:
                     return new TurretDefense();
-                case 7:
+                case ProblemsList.Whisper:
                     return new Whisper();
-                case 8:
+                case ProblemsList.WidgetRepairs:
                     return new WidgetRepairs();
-                case 9:
+                case ProblemsList.Abacus:
                     return new Abacus();
-                case 10:
+                case ProblemsList.ABBA:
                     return new ABBA();
-                case 11:
+                case ProblemsList.ATaleOfThreeCities:
                     return new ATaleOfThreeCities();
-                case 12:
+                case ProblemsList.AToughGame:
                     return new AToughGame();
                 default:
                     return null;
             }
         }
+
     }
 }
