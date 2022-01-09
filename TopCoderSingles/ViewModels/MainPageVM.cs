@@ -22,7 +22,6 @@ namespace TopCoderSingles.ViewModels
         private bool canCancel;
 
         private CancellationTokenSource tokenSource = null;
-        //private Progress<int> progress;
 
         #endregion
 
@@ -77,11 +76,6 @@ namespace TopCoderSingles.ViewModels
 
             canDoSomething = true;
             canCancel = false;
-
-            //progress = new Progress<int>(percent =>
-            //{
-            //    ProgressBarViewModel.ProgressPercent = percent;
-            //});
 
             ShowDefinition = new Command(ShowProblemDefinition, () => { return canDoSomething; });
             ShowCode = new Command(ShowProblemCode, () => { return canDoSomething; });
