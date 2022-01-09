@@ -53,11 +53,11 @@ namespace TopCoderSingles.Practice_Problems
             return await SubstituteTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(string key, string code), int>[] Examples => new SubstituteExample[]
+        public IExample<(string key, string code), int>[] Examples => new GenericExample<(string key, string code), int>[]
         {
-            new SubstituteExample(("TRADINGFEW","LGXWEV"),709),
-            new SubstituteExample(("ABCDEFGHIJ","XJ"),0),
-            new SubstituteExample(("CRYSTALBUM","MMA"),6)
+            new GenericExample<(string key, string code), int>(("TRADINGFEW","LGXWEV"),709),
+            new GenericExample<(string key, string code), int>(("ABCDEFGHIJ","XJ"),0),
+            new GenericExample<(string key, string code), int>(("CRYSTALBUM","MMA"),6)
         };
         public bool TestExample(IExample<(string key, string code), int> example)
         {
@@ -95,29 +95,6 @@ namespace TopCoderSingles.Practice_Problems
                 returnValue += foundValue;
             }
             return returnValue;
-        }
-
-        private class SubstituteExample : IExample<(string key, string code), int>
-        {
-            private (string key, string code) _input;
-            private int _output;
-
-            public (string key, string code) Inputs
-            {
-                get => _input;
-                set => _input = value;
-            }
-            public int Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public SubstituteExample((string key, string code) inputs, int output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

@@ -59,7 +59,7 @@ namespace TopCoderSingles.Practice_Problems
         }
 ";
 
-        public GenericTester<(string[] tokens, string input), string[]> LexerTester = new GenericTester<(string[] tokens, string input), string[]> ();
+        public GenericTester<(string[] tokens, string input), string[]> LexerTester = new GenericTester<(string[] tokens, string input), string[]>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await LexerTester.TestExamplesOnceTask(this, token, progress);
@@ -69,14 +69,26 @@ namespace TopCoderSingles.Practice_Problems
             return await LexerTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(string[] tokens, string input), string[]>[] Examples => new LexerExample[]
+        public IExample<(string[] tokens, string input), string[]>[] Examples => new GenericExample<(string[] tokens, string input), string[]>[]
 {
-            new LexerExample((new string[]{"ab","aba","A"},"ababbbaAab"),new string[]{ "aba", "A", "ab" }),
-            new LexerExample((new string[]{"a","a","aa","aaa","aaaa","aaaaa","aa"},"aaaaaaaaaaaaaaaaaaaaaaaaa"),new string[]{ "aaaaa", "aaaaa", "aaaaa", "aaaaa", "aaaaa" }),
-            new LexerExample((new string[]{"wow","wo","w"},"awofwwofowwowowowwwooo"),new string[]{ "wo", "w", "wo", "w", "wow", "wow", "w", "wo" }),
-            new LexerExample((new string[]{"int","double","long","char","boolean","byte","float"},"intlongdoublecharintintboolean"),new string[]{ "int", "long", "double", "char", "int", "int", "boolean" }),
-            new LexerExample((new string[]{ },"Great"),new string[]{ }),
-            new LexerExample((new string[]{"AbCd","dEfG","GhIj"},"abCdEfGhIjAbCdEfGhIj"),new string[]{ "dEfG", "AbCd", "GhIj" })
+            new GenericExample<(string[] tokens, string input), string[]>((
+                new string[]{"ab","aba","A"},"ababbbaAab"),
+                new string[]{ "aba", "A", "ab" }),
+            new GenericExample<(string[] tokens, string input), string[]>((
+                new string[]{"a","a","aa","aaa","aaaa","aaaaa","aa"},"aaaaaaaaaaaaaaaaaaaaaaaaa"),
+                new string[]{ "aaaaa", "aaaaa", "aaaaa", "aaaaa", "aaaaa" }),
+            new GenericExample<(string[] tokens, string input), string[]>((
+                new string[]{"wow","wo","w"},"awofwwofowwowowowwwooo"),
+                new string[]{ "wo", "w", "wo", "w", "wow", "wow", "w", "wo" }),
+            new GenericExample<(string[] tokens, string input), string[]>((
+                new string[]{"int","double","long","char","boolean","byte","float"},"intlongdoublecharintintboolean"),
+                new string[]{ "int", "long", "double", "char", "int", "int", "boolean" }),
+            new GenericExample<(string[] tokens, string input), string[]>((
+                new string[]{ },"Great"),
+                new string[]{ }),
+            new GenericExample<(string[] tokens, string input), string[]>((
+                new string[]{"AbCd","dEfG","GhIj"},"abCdEfGhIjAbCdEfGhIj"),
+                new string[]{ "dEfG", "AbCd", "GhIj" })
 };
         public bool TestExample(IExample<(string[] tokens, string input), string[]> example)
         {
@@ -153,29 +165,6 @@ namespace TopCoderSingles.Practice_Problems
             // If we get here, all of the corresponding array elements were equal, so the
             // arrays are equal.
             return true;
-        }
-
-        private class LexerExample : IExample<(string[] tokens, string input), string[]>
-        {
-            private (string[] tokens, string input) _input;
-            private string[] _output;
-
-            public (string[] tokens, string input) Inputs
-            {
-                get => _input;
-                set => _input = value;
-            }
-            public string[] Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public LexerExample((string[] tokens, string input) inputs, string[] output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

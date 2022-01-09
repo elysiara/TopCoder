@@ -45,11 +45,11 @@ namespace TopCoderSingles.Practice_Problems
             return await IditarodTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<string[], int>[] Examples => new IditarodExample[]
+        public IExample<string[], int>[] Examples => new GenericExample<string[], int>[]
         {
-            new IditarodExample(new string[]{"12:00 PM, DAY 1","12:01 PM, DAY 1"},241),
-            new IditarodExample(new string[]{"12:00 AM, DAY 2"},960),
-            new IditarodExample(new string[]{"02:00 PM, DAY 19","02:00 PM, DAY 20", "01:58 PM, DAY 20"},27239)
+            new GenericExample<string[], int>(new string[]{"12:00 PM, DAY 1","12:01 PM, DAY 1"},241),
+            new GenericExample<string[], int>(new string[]{"12:00 AM, DAY 2"},960),
+            new GenericExample<string[], int>(new string[]{"02:00 PM, DAY 19","02:00 PM, DAY 20", "01:58 PM, DAY 20"},27239)
         };
         public bool TestExample(IExample<string[], int> example)
         {
@@ -76,29 +76,6 @@ namespace TopCoderSingles.Practice_Problems
             if (fractional >= 0.5) { averageMinutesInt++; }
 
             return averageMinutesInt;
-        }
-
-        private class IditarodExample : IExample<string[], int>
-        {
-            private string[] _input;
-            private int _output;
-
-            public string[] Inputs
-            {
-                get => _input;
-                set => _input = value;
-            }
-            public int Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public IditarodExample(string[] inputs, int output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

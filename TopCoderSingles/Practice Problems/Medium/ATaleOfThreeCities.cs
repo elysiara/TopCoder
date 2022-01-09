@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class ATaleOfThreeCities : IDisplayableProblem, ITestableExamples<(int[], int[], int[], int[], int[], int[]), double>
+    class ATaleOfThreeCities : IDisplayableProblem, ITestableExamples<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>
     {
         public string Name => "A Tale of Three Cities";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/1499/3281/3543/2/1499";
@@ -52,7 +52,7 @@ namespace TopCoderSingles.Practice_Problems
             }
 ";
 
-        public GenericTester<(int[], int[], int[], int[], int[], int[]), double> ATaleOfThreeCitiesTester = new GenericTester<(int[], int[], int[], int[], int[], int[]), double>();
+        public GenericTester<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double> ATaleOfThreeCitiesTester = new GenericTester<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await ATaleOfThreeCitiesTester.TestExamplesOnceTask(this, token, progress);
@@ -62,11 +62,11 @@ namespace TopCoderSingles.Practice_Problems
             return await ATaleOfThreeCitiesTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(int[], int[], int[], int[], int[], int[]), double>[] Examples => new ATaleOfThreeCitiesExample[]
+        public IExample<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>[] Examples => new GenericExample<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>[]
 {
             // The tunnel connecting the subway station in city A at(0,2) with the subway station in city C at(1,3) has a length of about 1.41
             // and the tunnel connecting the subway station in city A at(0,1) with the subway station in city B at(2,1) has a length of 2.
-            new ATaleOfThreeCitiesExample((
+            new GenericExample<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>((
                 new int[]{0,0,0},
                 new int[]{0,1,2},
                 new int[]{2,3},
@@ -74,7 +74,7 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{1,5},
                 new int[]{3,28}),
                 3.414213562373095),
-            new ATaleOfThreeCitiesExample((
+            new GenericExample<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>((
                 new int[]{-2,-1,0,1,2},
                 new int[]{0,0,0,0,0},
                 new int[]{-2,-1,0,1,2},
@@ -82,7 +82,7 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{-2,-1,0,1,2},
                 new int[]{2,2,2,2,2}),
                 2.0),
-            new ATaleOfThreeCitiesExample((
+            new GenericExample<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double>((
                 new int[]{4,5,11,21,8,10,3,9,5,6},
                 new int[]{12,8,9,12,2,3,5,7,10,13},
                 new int[]{34,35,36,41,32,39,41,37,39,50},
@@ -91,9 +91,9 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{10,20,30,40,50,60,70,80,90,100}),
                 50.323397776611024)
 };
-        public bool TestExample(IExample<(int[], int[], int[], int[], int[], int[]), double> example)
+        public bool TestExample(IExample<(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy), double> example)
         {
-            double output = Connect(example.Inputs.Item1, example.Inputs.Item2, example.Inputs.Item3, example.Inputs.Item4, example.Inputs.Item5, example.Inputs.Item6);
+            double output = Connect(example.Inputs.ax, example.Inputs.ay, example.Inputs.bx, example.Inputs.by, example.Inputs.cx, example.Inputs.cy);
             // Tweak output to allow for rounding differences since TopCoder allows these to pass
             return Math.Round(output - example.Output, 13) == 0;
         }
@@ -135,29 +135,6 @@ namespace TopCoderSingles.Practice_Problems
             }
 
             return shortestDistance;
-        }
-
-        public class ATaleOfThreeCitiesExample : IExample<(int[], int[], int[], int[], int[], int[]), double>
-        {
-            private (int[], int[], int[], int[], int[], int[]) _inputs;
-            private double _output;
-
-            public (int[], int[], int[], int[], int[], int[]) Inputs
-            {
-                get => _inputs;
-                set => _inputs = value;
-            }
-            public double Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public ATaleOfThreeCitiesExample((int[], int[], int[], int[], int[], int[]) inputs, double output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

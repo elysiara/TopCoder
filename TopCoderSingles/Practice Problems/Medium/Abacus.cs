@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class Abacus : IDisplayableProblem, ITestableExamples<(string[], int), string[]>
+    class Abacus : IDisplayableProblem, ITestableExamples<(string[] original, int val), string[]>
     {
         public string Name => "Abacus";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/1626/4170/4512/2/1626";
@@ -44,7 +44,7 @@ namespace TopCoderSingles.Practice_Problems
             }
 ";
 
-        public GenericTester<(string[], int), string[]> AbacusTester = new GenericTester<(string[], int), string[]>();
+        public GenericTester<(string[] original, int val), string[]> AbacusTester = new GenericTester<(string[] original, int val), string[]>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await AbacusTester.TestExamplesOnceTask(this, token, progress);
@@ -54,26 +54,26 @@ namespace TopCoderSingles.Practice_Problems
             return await AbacusTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(string[], int), string[]>[] Examples => new AbacusExample[]
+        public IExample<(string[] original, int val), string[]>[] Examples => new GenericExample<(string[] original, int val), string[]>[]
             {
                 // When we add 5 to the original, it is necessary to "carry" 1 to the next thread up. This shows the arithmetic 699979 + 5 = 699984
-                new AbacusExample((
+                new GenericExample<(string[] original, int val), string[]>((
                     new string[] {"ooo---oooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo", "oo---ooooooo", "---ooooooooo"}, 5),
                     new string[] {"ooo---oooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo", "o---oooooooo", "ooooo---oooo" }),
                 // This shows 699979 + 21 = 700000
-                new AbacusExample((
+                new GenericExample<(string[] original, int val), string[]>((
                     new string[] {"ooo---oooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo", "oo---ooooooo", "---ooooooooo"}, 21),
                     new string[] {"oo---ooooooo", "ooooooooo---", "ooooooooo---", "ooooooooo---", "ooooooooo---", "ooooooooo---" }),
-                new AbacusExample((
+                new GenericExample<(string[] original, int val), string[]>((
                     new string[] {"ooooooooo---", "---ooooooooo", "ooooooooo---", "---ooooooooo", "oo---ooooooo", "---ooooooooo"}, 100000),
                     new string[] {"oooooooo---o", "---ooooooooo", "ooooooooo---", "---ooooooooo", "oo---ooooooo", "---ooooooooo" }),
-                new AbacusExample((
+                new GenericExample<(string[] original, int val), string[]>((
                     new string[] {"o---oooooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo", "---ooooooooo" }, 1),
                     new string[] {"---ooooooooo", "ooooooooo---", "ooooooooo---", "ooooooooo---", "ooooooooo---", "ooooooooo---" })
             };
-        public bool TestExample(IExample<(string[], int), string[]> example)
+        public bool TestExample(IExample<(string[] original, int val), string[]> example)
         {
-            string[] output = Add(example.Inputs.Item1, example.Inputs.Item2);
+            string[] output = Add(example.Inputs.original, example.Inputs.val);
 
             bool[] stringsMatch = new bool[output.Length];
             for (int i = 0; i < output.Length; i++)
@@ -113,29 +113,6 @@ namespace TopCoderSingles.Practice_Problems
                 newAbacusStrings[i] = new string(beadsList.ToArray());
             }
             return newAbacusStrings;
-        }
-
-        public class AbacusExample : IExample<(string[], int), string[]>
-        {
-            private (string[], int) _inputs;
-            private string[] _output;
-
-            public (string[], int) Inputs
-            {
-                get => _inputs;
-                set => _inputs = value;
-            }
-            public string[] Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public AbacusExample((string[], int) inputs, string[] output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

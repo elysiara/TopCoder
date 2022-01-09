@@ -45,13 +45,13 @@ namespace TopCoderSingles.Practice_Problems
             return await WidgetRepairsTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(int[] arrivals, int numPerDay), int>[] Examples => new WidgetRepairsExample[]
+        public IExample<(int[] arrivals, int numPerDay), int>[] Examples => new GenericExample<(int[] arrivals, int numPerDay), int>[]
         {
-            new WidgetRepairsExample((new int[]{ 10, 0, 0, 4, 20 },8),6),
-            new WidgetRepairsExample((new int[]{ 0, 0, 0 },10),0),
-            new WidgetRepairsExample((new int[]{ 100, 100 },10),20),
-            new WidgetRepairsExample((new int[]{ 27, 0, 0, 0, 0, 9 },9),4),
-            new WidgetRepairsExample((new int[]{ 6, 5, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 5, 6 },3),15)
+            new GenericExample<(int[] arrivals, int numPerDay), int>((new int[]{ 10, 0, 0, 4, 20 },8),6),
+            new GenericExample<(int[] arrivals, int numPerDay), int>((new int[]{ 0, 0, 0 },10),0),
+            new GenericExample<(int[] arrivals, int numPerDay), int>((new int[]{ 100, 100 },10),20),
+            new GenericExample<(int[] arrivals, int numPerDay), int>((new int[]{ 27, 0, 0, 0, 0, 9 },9),4),
+            new GenericExample<(int[] arrivals, int numPerDay), int>((new int[]{ 6, 5, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 5, 6 },3),15)
         };
         public bool TestExample(IExample<(int[] arrivals, int numPerDay), int> example)
         {
@@ -81,29 +81,6 @@ namespace TopCoderSingles.Practice_Problems
                 days++;
             }
             return days;
-        }
-
-        private class WidgetRepairsExample : IExample<(int[] arrivals, int numPerDay), int>
-        {
-            private (int[] arrivals, int numPerDay) _inputs;
-            private int _output;
-
-            public (int[] arrivals, int numPerDay) Inputs
-            {
-                get => _inputs;
-                set => _inputs = value;
-            }
-            public int Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public WidgetRepairsExample((int[] arrivals, int numPerDay) inputs, int output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

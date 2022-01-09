@@ -55,17 +55,26 @@ typed = typed.Remove(0, 5);
             return await WhisperTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(string[] usernames, string typed), string>[] Examples => new WhisperExample[]
+        public IExample<(string[] usernames, string typed), string>[] Examples => new GenericExample<(string[] usernames, string typed), string>[]
         {
-            new WhisperExample((new string[]{"John","John Doe","John Doe h"},"/msg John Doe hi there"),"John Doe"),
-            new WhisperExample((new string[]{ "John","John Doe","John Doe h"},"/MSG jOHN dOE HI THERE"),"John Doe"),
-            new WhisperExample((new string[]{"writer"},"writer hi"),"not a whisper"),
-            new WhisperExample((new string[]{"tester"},"/msg testerTwo you there"),"user is not logged in"),
-            new WhisperExample((new string[]{"lbackstrom"},"/msg lbackstrom"),"user is not logged in"),
-            new WhisperExample((new string[]{"me"},"/msg me hi"),"user is not logged in"),
-            new WhisperExample((new string[]{ "abc"}," /msg abc note the leading space"),"not a whisper"),
-            new WhisperExample((new string[]{ "Wow"},"/msg Wow "),"Wow"),
-            new WhisperExample((new string[]{ "msg"},"/msg"),"not a whisper")
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{"John","John Doe","John Doe h"},"/msg John Doe hi there"),"John Doe"),
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{ "John","John Doe","John Doe h"},"/MSG jOHN dOE HI THERE"),"John Doe"),
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{"writer"},"writer hi"),"not a whisper"),
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{"tester"},"/msg testerTwo you there"),"user is not logged in"),
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{"lbackstrom"},"/msg lbackstrom"),"user is not logged in"),
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{"me"},"/msg me hi"),"user is not logged in"),
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{ "abc"}," /msg abc note the leading space"),"not a whisper"),
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{ "Wow"},"/msg Wow "),"Wow"),
+            new GenericExample<(string[] usernames, string typed), string>((
+                new string[]{ "msg"},"/msg"),"not a whisper")
         };
         public bool TestExample(IExample<(string[] usernames, string typed), string> example)
         {
@@ -103,29 +112,6 @@ typed = typed.Remove(0, 5);
                 }
             }
             return "user is not logged in";
-        }
-
-        private class WhisperExample : IExample<(string[] usernames, string typed), string>
-        {
-            private (string[] usernames, string typed) _inputs;
-            private string _output;
-
-            public (string[] usernames, string typed) Inputs
-            {
-                get => _inputs;
-                set => _inputs = value;
-            }
-            public string Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public WhisperExample((string[] usernames, string typed) inputs, string output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

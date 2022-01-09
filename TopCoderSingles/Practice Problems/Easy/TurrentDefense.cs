@@ -50,34 +50,34 @@ namespace TopCoderSingles.Practice_Problems
             return await TurretDefenseTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(int[] xs, int[] ys, int[] times), int>[] Examples => new TurretDefenseExample[]
+        public IExample<(int[] xs, int[] ys, int[] times), int>[] Examples => new GenericExample<(int[] xs, int[] ys, int[] times), int>[]
 {
-            new TurretDefenseExample((
+            new GenericExample<(int[] xs, int[] ys, int[] times), int>((
                 new int[]{3,5,6},
                 new int[]{7,5,6},
                 new int[]{11,15,16}),
                 2),
-            new TurretDefenseExample((
+            new GenericExample<(int[] xs, int[] ys, int[] times), int>((
                 new int[]{ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16},
                 new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16},
                 new int[]{2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32}),
                 -1),
-            new TurretDefenseExample((
+            new GenericExample<(int[] xs, int[] ys, int[] times), int>((
                 new int[]{ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16},
                 new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16},
                 new int[]{2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,31}),
                 15),
-            new TurretDefenseExample((
+            new GenericExample<(int[] xs, int[] ys, int[] times), int>((
                 new int[]{ 1000,0,1000,0,1000,0,1000,0,1000,0, 1000,0,1000,0,1000,0,1000,0,1000,0, 1000,0,1000,0,1000,0,1000,0,1000,0, 1000,0,1000,0,1000,0,1000,0,1000,0, 1000,0,1000,0,1000,0,1000,0,1000,0},
                 new int[]{1000,0,1000,0,1000,0,1000,0,1000,0, 1000,0,1000,0,1000,0,1000,0,1000,0, 1000,0,1000,0,1000,0,1000,0,1000,0, 1000,0,1000,0,1000,0,1000,0,1000,0, 1000,0,1000,0,1000,0,1000,0,1000,0},
                 new int[]{2000,4000,6000,8000,10000,12000,14000,16000,18000,20000, 22000,24000,26000,28000,30000,32000,34000,36000,38000,40000, 42000,44000,46000,48000,50000,52000,54000,56000,58000,60000, 62000,64000,66000,68000,70000,72000,74000,76000,78000,80000, 82000,84000,86000,88000,90000,92000,94000,96000,98000,100000}),
                 -1),
-            new TurretDefenseExample((
+            new GenericExample<(int[] xs, int[] ys, int[] times), int>((
                 new int[]{4,5},
                 new int[]{4,5},
                 new int[]{7,8}),
                 0),
-            new TurretDefenseExample((
+            new GenericExample<(int[] xs, int[] ys, int[] times), int>((
                 new int[]{1,2,3,4,15},
                 new int[]{1,2,3,4,15},
                 new int[]{100,200,300,400,405}),
@@ -116,29 +116,6 @@ namespace TopCoderSingles.Practice_Problems
             }
             // All targets were successfully hit
             return -1;
-        }
-
-        private class TurretDefenseExample : IExample<(int[] xs, int[] ys, int[] times), int>
-        {
-            private (int[] xs, int[] ys, int[] times) _input;
-            private int _output;
-
-            public (int[] xs, int[] ys, int[] times) Inputs
-            {
-                get => _input;
-                set => _input = value;
-            }
-            public int Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public TurretDefenseExample((int[] xs, int[] ys, int[] times) inputs, int output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

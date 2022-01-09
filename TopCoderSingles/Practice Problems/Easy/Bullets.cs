@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    public class Bullets : IDisplayableProblem, ITestableExamples<(string[], string), int>
+    public class Bullets : IDisplayableProblem, ITestableExamples<(string[] guns, string bullet), int>
     {
         public string Name => "Bullets";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/1174/665/665/1/1174";
@@ -46,17 +46,17 @@ namespace TopCoderSingles.Practice_Problems
             return await BulletTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(string[], string), int>[] Examples => new BulletExample[]
+        public IExample<(string[] guns, string bullet), int>[] Examples => new GenericExample<(string[] guns, string bullet), int>[]
         {
-            new BulletExample((new string[]{"| | | |","|| || |"," |||| "},"|| || |"),1),
-            new BulletExample((new string[]{"||| |","| | || "},"|||| "),0),
-            new BulletExample((new string[]{"|| || ||","| | | | ","||||||||"},"||| ||| "),-1),
-            new BulletExample((new string[]{},"| | | |"),-1),
-            new BulletExample((new string[]{"|| || ||","| | | | ","||| ||| ","||||||||"},"|| ||| |"),2)
+            new GenericExample<(string[] guns, string bullet), int>((new string[]{"| | | |","|| || |"," |||| "},"|| || |"),1),
+            new GenericExample<(string[] guns, string bullet), int>((new string[]{"||| |","| | || "},"|||| "),0),
+            new GenericExample<(string[] guns, string bullet), int>((new string[]{"|| || ||","| | | | ","||||||||"},"||| ||| "),-1),
+            new GenericExample<(string[] guns, string bullet), int>((new string[]{},"| | | |"),-1),
+            new GenericExample<(string[] guns, string bullet), int>((new string[]{"|| || ||","| | | | ","||| ||| ","||||||||"},"|| ||| |"),2)
         };
-        public bool TestExample(IExample<(string[], string), int> example)
+        public bool TestExample(IExample<(string[] guns, string bullet), int> example)
         {
-            return example.Output.Equals(Match(example.Inputs.Item1, example.Inputs.Item2));
+            return example.Output.Equals(Match(example.Inputs.guns, example.Inputs.bullet));
         }
         public int Match(string[] guns, string bullet)
         {
@@ -83,29 +83,6 @@ namespace TopCoderSingles.Practice_Problems
             }
             // If no guns match, return -1
             return -1;
-        }
-
-        private class BulletExample : IExample<(string[], string), int>
-        {
-            private (string[], string) _input;
-            private int _output;
-
-            public (string[], string) Inputs
-            {
-                get => _input;
-                set => _input = value;
-            }
-            public int Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public BulletExample((string[], string) inputs, int output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

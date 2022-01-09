@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class AToughGame : IDisplayableProblem, ITestableExamples<(int[], int[]), double>
+    class AToughGame : IDisplayableProblem, ITestableExamples<(int[] prob, int[] value), double>
     {
         public string Name => "A Tough Game";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/16542/49117/13968/1/326871";
         public string CodeAsString => "return to this";
 
-        public GenericTester<(int[], int[]), double> AToughGameTester = new GenericTester<(int[], int[]), double>();
+        public GenericTester<(int[] prob, int[] value), double> AToughGameTester = new GenericTester<(int[] prob, int[] value), double>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await AToughGameTester.TestExamplesOnceTask(this, token, progress);
@@ -21,7 +21,7 @@ namespace TopCoderSingles.Practice_Problems
             return await AToughGameTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(int[], int[]), double>[] Examples => new AToughGameExample[]
+        public IExample<(int[] prob, int[] value), double>[] Examples => new GenericExample<(int[] prob, int[] value), double>[]
 {
             //This game has 2 levels. Allen will beat level 0 with probability 1, and he will beat level 1 with probability 1/2. Allen will gain 3 units of gold for beating level 0, and 4 units of gold for beating level 1.
 
@@ -38,12 +38,12 @@ namespace TopCoderSingles.Practice_Problems
             //As Allen completes level 1, the game ends. He is currently carrying 13 gold.
             //Allen will win level 1 exactly once. It can be shown that on average Allen will play (and win) level 0 twice. Thus, the expected amount of gold he will have at the end is 2*3 + 4 = 10.
 
-            new AToughGameExample((
+            new GenericExample<(int[] prob, int[] value), double>((
                 new int[]{1000,500},
                 new int[]{3,4}),
                 10.0),
 
-            new AToughGameExample((
+            new GenericExample<(int[] prob, int[] value), double>((
                 new int[]{1000,1},
                 new int[]{3,4}),
                 3003.9999999999977),
@@ -59,24 +59,24 @@ namespace TopCoderSingles.Practice_Problems
             //In his fourth attempt Allen completes all five levels in a row. He ends the game with 1+2+3+4+5 gold collected when completing the levels, and the 1 extra gold that he collected at the beginning of level 1.
             //The probability of this particular playthrough is 1/(2^(16)).
 
-            new AToughGameExample((
+            new GenericExample<(int[] prob, int[] value), double>((
                 new int[]{500,500,500,500,500},
                 new int[]{1,2,3,4,5}),
                 16.626830517153095),
 
-            new AToughGameExample((
+            new GenericExample<(int[] prob, int[] value), double>((
                 new int[]{250,750},
                 new int[]{1000,1}),
                 1067.6666666666667),
 
-            new AToughGameExample((
+            new GenericExample<(int[] prob, int[] value), double>((
                 new int[]{916,932,927,988,958,996,944,968,917,939,960,965,960,998,920,990,915,972,995,916,902, 968,970,962,922,959,994,915,996,996,994,986,945,947,912,946,972,951,973,965,921,910, 938,975,942,950,900,983,960,998,982,980,902,974,952,938,900,962,920,931,964,974,953, 995,946,946,903,921,923,985,919,996,930,915,991,967,996,911,999,936,1000,962,970,929, 966,960,930,920,958,926,983},
                 new int[]{583,428,396,17,163,815,31,536,175,165,532,781,29,963,331,987,599,497,380,180,780,25, 931,607,784,613,468,140,488,604,401,912,204,785,697,173,451,849,714,914,650,652,338, 336,177,147,22,652,901,548,370,9,118,487,779,567,818,440,10,868,316,666,690,714,623, 269,501,649,324,773,173,54,391,745,504,578,81,627,319,301,16,899,658,586,604,83,520, 81,181,943,157}),
                 54204.93356505282),
 };
-        public bool TestExample(IExample<(int[], int[]), double> example)
+        public bool TestExample(IExample<(int[] prob, int[] value), double> example)
         {
-            double output = ExpectedGain(example.Inputs.Item1, example.Inputs.Item2);
+            double output = ExpectedGain(example.Inputs.prob, example.Inputs.value);
 
             double approxPassCondition = Math.Round(output - example.Output, 3);
             return approxPassCondition == 0;
@@ -147,29 +147,6 @@ namespace TopCoderSingles.Practice_Problems
             // ???
 
             return gold;
-        }
-
-        private class AToughGameExample : IExample<(int[], int[]), double>
-        {
-            private (int[], int[]) _inputs;
-            private double _output;
-
-            public (int[], int[]) Inputs
-            {
-                get => _inputs;
-                set => _inputs = value;
-            }
-            public double Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public AToughGameExample((int[], int[]) inputs, double output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

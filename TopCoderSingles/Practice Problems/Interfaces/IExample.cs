@@ -1,8 +1,8 @@
 ﻿namespace TopCoderSingles.Practice_Problems
 {
-    public interface IExample<Tinput, Toutput>
+    public interface IExample<Tinputs, Toutput>
     {
-        Tinput Inputs { get; set; }
+        Tinputs Inputs { get; set; }
         Toutput Output { get; set; }
     }
 }

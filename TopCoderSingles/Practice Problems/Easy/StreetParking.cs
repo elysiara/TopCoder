@@ -78,18 +78,17 @@ namespace TopCoderSingles.Practice_Problems
             return await StreetParkingTester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<string, int>[] Examples => new StreetParkingExample[]
+        public IExample<string, int>[] Examples => new GenericExample<string, int>[]
 {
-            new StreetParkingExample("---B--S-D--S--",4),
-            new StreetParkingExample("DDBDDBDDBDD",0),
-            new StreetParkingExample("--S--S--S--S--",2),
-            new StreetParkingExample("SSD-B---BD-DDSB-----S-S--------S-B----BSB-S--B-S-D",14)
+            new GenericExample<string, int>("---B--S-D--S--",4),
+            new GenericExample<string, int>("DDBDDBDDBDD",0),
+            new GenericExample<string, int>("--S--S--S--S--",2),
+            new GenericExample<string, int>("SSD-B---BD-DDSB-----S-S--------S-B----BSB-S--B-S-D",14)
 };
         public bool TestExample(IExample<string, int> example)
         {
             return example.Output.Equals(FreeParks(example.Inputs));
         }
-
         public int FreeParks(string street)
         {
             int freeParks = 0;
@@ -143,29 +142,6 @@ namespace TopCoderSingles.Practice_Problems
         public bool TestAhead10m(string street, int i)
         {
             return street.Substring(i + 2, 1) != "B";
-        }
-
-        private class StreetParkingExample : IExample<string, int>
-        {
-            private string _input;
-            private int _output;
-
-            public string Inputs
-            {
-                get => _input;
-                set => _input = value;
-            }
-            public int Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public StreetParkingExample(string inputs, int output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

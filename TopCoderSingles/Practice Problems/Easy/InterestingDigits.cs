@@ -62,13 +62,13 @@ namespace TopCoderSingles.Practice_Problems
             return await InterestingDigitsTester.TestExamplesForAverageTask(this, token, progress);
         }
         
-        public IExample<int, int[]>[] Examples => new InterestingDigitsExample[]
+        public IExample<int, int[]>[] Examples => new GenericExample<int, int[]>[]
         {
-            new InterestingDigitsExample(10,new int[]{ 3, 9 }),
-            new InterestingDigitsExample(3,new int[]{ 2 }),
-            new InterestingDigitsExample(9,new int[]{ 2, 4, 8 }),
-            new InterestingDigitsExample(26,new int[]{ 5, 25 }),
-            new InterestingDigitsExample(30,new int[]{ 29 })
+            new GenericExample<int, int[]>(10,new int[]{ 3, 9 }),
+            new GenericExample<int, int[]>(3,new int[]{ 2 }),
+            new GenericExample<int, int[]>(9,new int[]{ 2, 4, 8 }),
+            new GenericExample<int, int[]>(26,new int[]{ 5, 25 }),
+            new GenericExample<int, int[]>(30,new int[]{ 29 })
         };
         public bool TestExample(IExample<int, int[]> example)
         {
@@ -138,29 +138,6 @@ namespace TopCoderSingles.Practice_Problems
             // If we get here, all of the corresponding array elements were equal, so the
             // arrays are equal.
             return true;
-        }
-
-        private class InterestingDigitsExample : IExample<int, int[]>
-        {
-            private int _input;
-            private int[] _output;
-
-            public int Inputs
-            {
-                get => _input;
-                set => _input = value;
-            }
-            public int[] Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public InterestingDigitsExample(int inputs, int[] output)
-            {
-                Inputs = inputs;
-                Output = output;
-            }
         }
     }
 }

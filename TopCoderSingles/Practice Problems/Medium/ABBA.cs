@@ -6,7 +6,7 @@ namespace TopCoderSingles.Practice_Problems
 {
     // Example 4 fails, but I'm not sure why yet
 
-    class ABBA : IDisplayableProblem, ITestableExamples<(string, string), string>
+    class ABBA : IDisplayableProblem, ITestableExamples<(string initial, string target), string>
     {
         public string Name => "ABBA";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/16527/48825/13918/2/326683";
@@ -73,7 +73,7 @@ namespace TopCoderSingles.Practice_Problems
     }
 ";
 
-        public GenericTester<(string, string), string> ABBATester = new GenericTester<(string, string), string>();
+        public GenericTester<(string initial, string target), string> ABBATester = new GenericTester<(string initial, string target), string>();
         public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
         {
             return await ABBATester.TestExamplesOnceTask(this, token, progress);
@@ -83,8 +83,8 @@ namespace TopCoderSingles.Practice_Problems
             return await ABBATester.TestExamplesForAverageTask(this, token, progress);
         }
 
-        public IExample<(string, string), string>[] Examples => new ABBAExample[]{
-            new ABBAExample(("B" , "ABBA"), "Possible"),
+        public IExample<(string initial, string target), string>[] Examples => new GenericExample<(string initial, string target), string>[]{
+            new GenericExample<(string initial, string target), string>(("B" , "ABBA"), "Possible"),
             /*  Jamie can perform the following moves:
                 Initially, the string is "B".
                 Jamie adds an 'A' to the end of the string. Now the string is "BA".
@@ -92,16 +92,16 @@ namespace TopCoderSingles.Practice_Problems
                 Jamie adds an 'A' to the end of the string. Now the string is "ABBA".
                 Since there is a sequence of moves which starts with "B" and creates the string "ABBA", the answer is "Possible".  */
 
-            new ABBAExample(("AB" , "ABB"), "Impossible"),
+            new GenericExample<(string initial, string target), string>(("AB" , "ABB"), "Impossible"),
             // The only strings of length 3 Jamie can create are "ABA" and "BAB".
 
-            new ABBAExample(("BBAB" , "ABABABABB"), "Impossible"),
-            new ABBAExample(("BBBBABABBBBBBA" , "BBBBABABBABBBBBBABABBBBBBBBABAABBBAA"), "Possible"),
-            new ABBAExample(("A","BB"),"Impossible")
+            new GenericExample<(string initial, string target), string>(("BBAB" , "ABABABABB"), "Impossible"),
+            new GenericExample<(string initial, string target), string>(("BBBBABABBBBBBA" , "BBBBABABBABBBBBBABABBBBBBBBABAABBBAA"), "Possible"),
+            new GenericExample<(string initial, string target), string>(("A","BB"),"Impossible")
         };
-        public bool TestExample(IExample<(string, string), string> example)
+        public bool TestExample(IExample<(string initial, string target), string> example)
         {
-            string output = CanObtain(example.Inputs.Item1, example.Inputs.Item2);
+            string output = CanObtain(example.Inputs.initial, example.Inputs.target);
             return (output.Equals(example.Output));
         }
         string CanObtain(string initial, string target)
@@ -161,29 +161,6 @@ namespace TopCoderSingles.Practice_Problems
                 char[] charArray = s.ToCharArray();
                 Array.Reverse(charArray);
                 return new string(charArray);
-            }
-        }
-
-        public class ABBAExample : IExample<(string, string), string>
-        {
-            private (string, string) _inputs;
-            private string _output;
-
-            public (string, string) Inputs
-            {
-                get => _inputs;
-                set => _inputs = value;
-            }
-            public string Output
-            {
-                get => _output;
-                set => _output = value;
-            }
-
-            public ABBAExample((string, string) inputs, string output)
-            {
-                Inputs = inputs;
-                Output = output;
             }
         }
     }
