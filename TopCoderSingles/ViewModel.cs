@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using TopCoderSingles.Helper;
 using TopCoderSingles.Practice_Problems;
 
@@ -15,7 +16,7 @@ namespace TopCoderSingles
 
         #region Fields
 
-        private IProblem _SelectedProblem;
+        private IDisplayableProblem _SelectedProblem;
 
         private string _DisplayText;
         private string[] _PracticeProblems;
@@ -33,7 +34,7 @@ namespace TopCoderSingles
 
         #region ObservableProperties
 
-        public IProblem SelectedProblem
+        public IDisplayableProblem SelectedProblem
         {
             get { return _SelectedProblem; }
             set
@@ -45,7 +46,6 @@ namespace TopCoderSingles
                 }
             }
         }
-
         public string DisplayText
         {
             get { return _DisplayText; }
@@ -58,7 +58,6 @@ namespace TopCoderSingles
                 }
             }
         }
-
         public string[] PracticeProblems
         {
             get { return _PracticeProblems; }
@@ -71,7 +70,6 @@ namespace TopCoderSingles
                 }
             }
         }
-
         public int SelectedProblemIndex
         {
             get { return _SelectedProblemIndex; }
@@ -86,8 +84,7 @@ namespace TopCoderSingles
                 }
             }
         }
-
-        public bool progressVisibility
+        public bool ProgressVisibility
         {
             get { return _progressVisibility; }
             set
@@ -95,11 +92,11 @@ namespace TopCoderSingles
                 if (_progressVisibility != value)
                 {
                     _progressVisibility = value;
-                    OnPropertyChanged(nameof(progressVisibility));
+                    OnPropertyChanged(nameof(ProgressVisibility));
                 }
             }
         }
-        public int progressPercent
+        public int ProgressPercent
         {
             get { return _progressPercent; }
             set
@@ -107,7 +104,7 @@ namespace TopCoderSingles
                 if (_progressPercent != value)
                 {
                     _progressPercent = value;
-                    OnPropertyChanged(nameof(progressPercent));
+                    OnPropertyChanged(nameof(ProgressPercent));
                 }
             }
         }
@@ -127,11 +124,11 @@ namespace TopCoderSingles
 
             canDoSomething = true;
             canCancel = false;
-            progressVisibility = false;
+            ProgressVisibility = false;
 
             progress = new Progress<int>(percent =>
             {
-                progressPercent = percent;
+                ProgressPercent = percent;
             });
 
             ShowDefinition = new Command(ShowProblemDefinition, () => { return canDoSomething; });
@@ -170,7 +167,7 @@ namespace TopCoderSingles
         {
             canDoSomething = false;
             canCancel = true;
-            progressVisibility = true;
+            ProgressVisibility = true;
 
             tokenSource = new CancellationTokenSource();
             CancellationToken token = tokenSource.Token;
@@ -179,7 +176,7 @@ namespace TopCoderSingles
 
             try
             {
-                DisplayText += await pf.TestExamplesOnceTask(SelectedProblem, token, progress);
+                DisplayText += await Task.Run(() => SelectedProblem.TestExamplesOnceTask(token, progress));
             }
 
             catch (OperationCanceledException oce)
@@ -189,14 +186,14 @@ namespace TopCoderSingles
 
             canDoSomething = true;
             canCancel = false;
-            progressVisibility = false;
+            ProgressVisibility = false;
         }
 
         private async void RunProblemforAverage()
         {
             canDoSomething = false;
             canCancel = true;
-            progressVisibility = true;
+            ProgressVisibility = true;
 
             tokenSource = new CancellationTokenSource();
             CancellationToken token = tokenSource.Token;
@@ -205,7 +202,7 @@ namespace TopCoderSingles
 
             try
             {
-                DisplayText += await pf.TestExamplesForAverageTask(SelectedProblem, token, progress);
+                DisplayText += await Task.Run(() => SelectedProblem.TestExamplesForAverageTask(token, progress));
             }
 
             catch (OperationCanceledException oce)
@@ -215,7 +212,7 @@ namespace TopCoderSingles
 
             canDoSomething = true;
             canCancel = false;
-            progressVisibility = false;
+            ProgressVisibility = false;
         }
 
         private void CancelProblem()

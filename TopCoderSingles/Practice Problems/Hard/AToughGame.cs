@@ -1,14 +1,27 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class AToughGame : IProblem
+    class AToughGame : IDisplayableProblem, ITestableExamples<(int[], int[]), double>
     {
         public string Name => "A Tough Game";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/16542/49117/13968/1/326871";
         public string CodeAsString => "return to this";
-        public IExample[] Examples => new IExample[]
+
+        public GenericTester<(int[], int[]), double> AToughGameTester = new GenericTester<(int[], int[]), double>();
+        public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await AToughGameTester.TestExamplesOnceTask(this, token, progress);
+        }
+        public async Task<string> TestExamplesForAverageTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await AToughGameTester.TestExamplesForAverageTask(this, token, progress);
+        }
+
+        public IExample<(int[], int[]), double>[] Examples => new AToughGameExample[]
 {
             //This game has 2 levels. Allen will beat level 0 with probability 1, and he will beat level 1 with probability 1/2. Allen will gain 3 units of gold for beating level 0, and 4 units of gold for beating level 1.
 
@@ -61,87 +74,101 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{583,428,396,17,163,815,31,536,175,165,532,781,29,963,331,987,599,497,380,180,780,25, 931,607,784,613,468,140,488,604,401,912,204,785,697,173,451,849,714,914,650,652,338, 336,177,147,22,652,901,548,370,9,118,487,779,567,818,440,10,868,316,666,690,714,623, 269,501,649,324,773,173,54,391,745,504,578,81,627,319,301,16,899,658,586,604,83,520, 81,181,943,157}),
                 54204.93356505282),
 };
-        public class AToughGameExample : ExampleBase<(int[], int[]), double>
+        public bool TestExample(IExample<(int[], int[]), double> example)
         {
-            public AToughGameExample((int[], int[]) inputs, double correctOutput) : base(inputs, correctOutput)
+            double output = ExpectedGain(example.Inputs.Item1, example.Inputs.Item2);
+
+            double approxPassCondition = Math.Round(output - example.Output, 3);
+            return approxPassCondition == 0;
+
+            //return output.Equals(CorrectOutput);
+        }
+        double ExpectedGain(int[] prob, int[] value)
+        {
+            // probability of success is prob/1000
+            // value is gold for that level
+
+            double goldCollected = 0;
+
+            double pPerfectRun(int level)
             {
+                double p = (double)prob[level] / 1000;
+                for (int i = 0; i < (level - 1); i++)
+                {
+                    p *= (double)prob[i] / 1000;
+                }
+                return p;
             }
 
-            public override bool TestExample()
+            double pDeathFollowedByPerfectRun(int level)
             {
-                double output = expectedGain(Inputs.Item1, Inputs.Item2);
-
-                double approxPassCondition = Math.Round(output - CorrectOutput, 3);
-                return approxPassCondition == 0;
-
-                //return output.Equals(CorrectOutput);
+                double p = (1000 - (double)prob[level]) / 1000;
+                for (int i = 0; i < (level - 1); i++)
+                {
+                    p *= (double)prob[i] / 1000;
+                }
+                return p;
             }
 
-            double expectedGain(int[] prob, int[] value)
+            double pDeathFollowedByImperfectRun(int level)
             {
-                // probability of success is prob/1000
-                // value is gold for that level
-
-                double goldCollected = 0;
-
-                double pPerfectRun(int level)
+                double p = (1000 - (double)prob[level]) / 1000;
+                for (int i = 0; i < (level - 1); i++)
                 {
-                    double p = (double)prob[level] / 1000;
-                    for (int i = 0; i < (level - 1); i++)
-                    {
-                        p *= (double)prob[i] / 1000;
-                    }
-                    return p;
+                    p *= (1000 - (double)prob[i]) / 1000;
                 }
-
-                double pDeathFollowedByPerfectRun(int level)
-                {
-                    double p = (1000 - (double)prob[level]) / 1000;
-                    for (int i = 0; i < (level - 1); i++)
-                    {
-                        p *= (double)prob[i] / 1000;
-                    }
-                    return p;
-                }
-
-                double pDeathFollowedByImperfectRun(int level)
-                {
-                    double p = (1000 - (double)prob[level]) / 1000;
-                    for (int i = 0; i < (level - 1); i++)
-                    {
-                        p *= (1000 - (double)prob[i]) / 1000;
-                    }
-                    return p;
-                }
-
-                for (int i = 0; i < prob.Length; i++)
-                {
-                    int[] valuesInPlay = value.Take(i + 1).ToArray();
-
-                    goldCollected += pPerfectRun(i) * valuesInPlay.Last();
-                    goldCollected += pDeathFollowedByPerfectRun(i) * valuesInPlay.Sum();
-                    goldCollected += pDeathFollowedByImperfectRun(i) * valuesInPlay.Last();
-                }
-
-                return goldCollected;
+                return p;
             }
 
-            double LevelOutcome(int[] prob, int[] value, int level)
+            for (int i = 0; i < prob.Length; i++)
             {
-                // Initialise gold
-                double gold = 0;
-                double pSuccess = prob[level] / 1000;
-                double pFailure = (1000 - prob[level]) / 1000;
-                double pPerfectRunBackToLevel = prob.Take(level - 1).ToArray().Aggregate((a, b) => a * b);
+                int[] valuesInPlay = value.Take(i + 1).ToArray();
 
-                // Pass
-                gold += pSuccess * value[level];
-                // Fail and Recover Gold
-                gold += (pFailure * pPerfectRunBackToLevel) * (value[level] + value.Take(level -1).ToArray().Sum());
-                // Fail and Do Not Recover Gold
-                // ???
+                goldCollected += pPerfectRun(i) * valuesInPlay.Last();
+                goldCollected += pDeathFollowedByPerfectRun(i) * valuesInPlay.Sum();
+                goldCollected += pDeathFollowedByImperfectRun(i) * valuesInPlay.Last();
+            }
 
-                return gold;
+            return goldCollected;
+        }
+        double LevelOutcome(int[] prob, int[] value, int level)
+        {
+            // Initialise gold
+            double gold = 0;
+            double pSuccess = prob[level] / 1000;
+            double pFailure = (1000 - prob[level]) / 1000;
+            double pPerfectRunBackToLevel = prob.Take(level - 1).ToArray().Aggregate((a, b) => a * b);
+
+            // Pass
+            gold += pSuccess * value[level];
+            // Fail and Recover Gold
+            gold += (pFailure * pPerfectRunBackToLevel) * (value[level] + value.Take(level - 1).ToArray().Sum());
+            // Fail and Do Not Recover Gold
+            // ???
+
+            return gold;
+        }
+
+        private class AToughGameExample : IExample<(int[], int[]), double>
+        {
+            private (int[], int[]) _inputs;
+            private double _output;
+
+            public (int[], int[]) Inputs
+            {
+                get => _inputs;
+                set => _inputs = value;
+            }
+            public double Output
+            {
+                get => _output;
+                set => _output = value;
+            }
+
+            public AToughGameExample((int[], int[]) inputs, double output)
+            {
+                Inputs = inputs;
+                Output = output;
             }
         }
     }

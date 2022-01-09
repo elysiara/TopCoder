@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
     // Example 4 fails, but I'm not sure why yet
 
-    class ABBA : IProblem
+    class ABBA : IDisplayableProblem, ITestableExamples<(string, string), string>
     {
         public string Name => "ABBA";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/16527/48825/13918/2/326683";
@@ -70,7 +72,18 @@ namespace TopCoderSingles.Practice_Problems
         }
     }
 ";
-        public IExample[] Examples => new IExample[]{
+
+        public GenericTester<(string, string), string> ABBATester = new GenericTester<(string, string), string>();
+        public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await ABBATester.TestExamplesOnceTask(this, token, progress);
+        }
+        public async Task<string> TestExamplesForAverageTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await ABBATester.TestExamplesForAverageTask(this, token, progress);
+        }
+
+        public IExample<(string, string), string>[] Examples => new ABBAExample[]{
             new ABBAExample(("B" , "ABBA"), "Possible"),
             /*  Jamie can perform the following moves:
                 Initially, the string is "B".
@@ -86,80 +99,92 @@ namespace TopCoderSingles.Practice_Problems
             new ABBAExample(("BBBBABABBBBBBA" , "BBBBABABBABBBBBBABABBBBBBBBABAABBBAA"), "Possible"),
             new ABBAExample(("A","BB"),"Impossible")
         };
-        public class ABBAExample : ExampleBase<(string, string), string>
+        public bool TestExample(IExample<(string, string), string> example)
         {
-            public ABBAExample((string, string) inputs, string correctOutput) : base(inputs, correctOutput)
+            string output = CanObtain(example.Inputs.Item1, example.Inputs.Item2);
+            return (output.Equals(example.Output));
+        }
+        string CanObtain(string initial, string target)
+        {
+            TreeBuilder tb = new TreeBuilder(initial, target);
+            return tb.answer;
+        }
+        class Node
+        {
+            public Node(string data)
             {
+                Data = data;
+            }
+            public string Data { get; }
+            public Node Left { get; set; }
+            public Node Right { get; set; }
+        }
+        class TreeBuilder
+        {
+            public string answer = "Impossible";
+
+            public Node Root { get; }
+
+            public TreeBuilder(string initial, string target)
+            {
+                // Starting at initial, create a binary tree
+                Root = BuildTree(initial, target);
             }
 
-            public override bool TestExample()
+            private Node BuildTree(string currentValue, string target)
             {
-                string output = canObtain(Inputs.Item1, Inputs.Item2);
-                return (output.Equals(CorrectOutput));
-            }
-
-            string canObtain(string initial, string target)
-            { 
-                TreeBuilder tb = new TreeBuilder(initial, target);
-                return tb.answer;
-            }
-
-            class Node
-            {
-                public Node(string data)
+                // If the tree contains the target value - the solution is possible!
+                if (String.Equals(currentValue, target))
                 {
-                    Data = data;
-                }
-                public string Data { get; }
-                public Node Left { get; set; }
-                public Node Right { get; set; }
-            }
-
-            class TreeBuilder
-            {
-                public string answer = "Impossible";
-
-                public Node Root { get; }
-
-                public TreeBuilder(string initial, string target)
-                {
-                    // Starting at initial, create a binary tree
-                    Root = buildTree(initial, target);
-                }
-
-                private Node buildTree(string currentValue, string target)
-                {
-                    // If the tree contains the target value - the solution is possible!
-                    if (String.Equals(currentValue, target))
-                    {
-                        answer = "Possible";
-                    }
-
-                    // The tree stops generating if the currentValue length equals the target length
-                    if (currentValue.Length == target.Length) return null;
-
-                    Node next = new Node(currentValue);
-
-                    // The two possible moves are:
-                    // Add the letter A to the end of the string.                
-                    string rule1Result = currentValue + "A";
-                    next.Left = target.Contains(rule1Result) ? buildTree(rule1Result, target) : null;
-
-                    // Reverse the string and then add the letter B to the end of the string.
-                    string rule2Result = Reverse(currentValue) + "B";
-                    next.Right = target.Contains(rule2Result) ? buildTree(rule2Result, target) : null;
-
-                    return next;
+                    answer = "Possible";
                 }
 
-                public string Reverse(string s)
-                {
-                    char[] charArray = s.ToCharArray();
-                    Array.Reverse(charArray);
-                    return new string(charArray);
-                }
+                // The tree stops generating if the currentValue length equals the target length
+                if (currentValue.Length == target.Length) return null;
+
+                Node next = new Node(currentValue);
+
+                // The two possible moves are:
+                // Add the letter A to the end of the string.                
+                string rule1Result = currentValue + "A";
+                next.Left = target.Contains(rule1Result) ? BuildTree(rule1Result, target) : null;
+
+                // Reverse the string and then add the letter B to the end of the string.
+                string rule2Result = Reverse(currentValue) + "B";
+                next.Right = target.Contains(rule2Result) ? BuildTree(rule2Result, target) : null;
+
+                return next;
             }
 
+            public string Reverse(string s)
+            {
+                char[] charArray = s.ToCharArray();
+                Array.Reverse(charArray);
+                return new string(charArray);
+            }
+        }
+
+        public class ABBAExample : IExample<(string, string), string>
+        {
+            private (string, string) _inputs;
+            private string _output;
+
+            public (string, string) Inputs
+            {
+                get => _inputs;
+                set => _inputs = value;
+            }
+            public string Output
+            {
+                get => _output;
+                set => _output = value;
+            }
+
+            public ABBAExample((string, string) inputs, string output)
+            {
+                Inputs = inputs;
+                Output = output;
+            }
         }
     }
 }

@@ -1,6 +1,10 @@
-﻿namespace TopCoderSingles.Practice_Problems
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace TopCoderSingles.Practice_Problems
 {
-    public class Substitute : IProblem
+    public class Substitute : IDisplayableProblem, ITestableExamples<(string key, string code), int>
     {
         public string Name => "Substitute";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/1282/1262/1333/2/1282";
@@ -38,58 +42,82 @@
             return returnValue;
         }
 ";
-        public IExample[] Examples => new SubstituteExample[]
+
+        public GenericTester<(string key, string code), int> SubstituteTester = new GenericTester<(string key, string code), int>();
+        public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await SubstituteTester.TestExamplesOnceTask(this, token, progress);
+        }
+        public async Task<string> TestExamplesForAverageTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await SubstituteTester.TestExamplesForAverageTask(this, token, progress);
+        }
+
+        public IExample<(string key, string code), int>[] Examples => new SubstituteExample[]
         {
             new SubstituteExample(("TRADINGFEW","LGXWEV"),709),
             new SubstituteExample(("ABCDEFGHIJ","XJ"),0),
             new SubstituteExample(("CRYSTALBUM","MMA"),6)
         };
-        protected class SubstituteExample : ExampleBase<(string key, string code), int>
+        public bool TestExample(IExample<(string key, string code), int> example)
         {
-            public SubstituteExample((string, string) inputs, int correctOutput) : base(inputs, correctOutput)
-            {
-            }
+            return (example.Output.Equals(GetValue(example.Inputs.key, example.Inputs.code)));
+        }
+        public int GetValue(string key, string code)
+        {
+            // Initialise return value
+            int returnValue = 0;
 
-            public override bool TestExample()
+            foreach (char letter in code)
             {
-                int output = getValue(Inputs.key, Inputs.code);
-                return (output.Equals(CorrectOutput));
-            }
+                // Look for the letter of the code in the key
+                int foundValue = key.IndexOf(letter);
 
-            public int getValue(string key, string code)
-            {
-                // Initialise return value
-                int returnValue = 0;
-
-                foreach (char letter in code)
+                // If not found, move on to the next letter
+                if (foundValue == -1)
                 {
-                    // Look for the letter of the code in the key
-                    int foundValue = key.IndexOf(letter);
-
-                    // If not found, move on to the next letter
-                    if (foundValue == -1)
-                    {
-                        continue;
-                    }
-
-                    // If the letter is the last letter of the key, set the value to 0
-                    if (foundValue == (key.Length - 1))
-                    {
-                        foundValue = 0;
-                    }
-                    // Otherwise add 1 to the value because the IndexOf is zero indexed
-                    else
-                    {
-                        foundValue++;
-                    }
-
-                    // Move the returnValue along by an order of magnitude and add the new found value
-                    returnValue *= 10;
-                    returnValue += foundValue;
+                    continue;
                 }
-                return returnValue;
+
+                // If the letter is the last letter of the key, set the value to 0
+                if (foundValue == (key.Length - 1))
+                {
+                    foundValue = 0;
+                }
+                // Otherwise add 1 to the value because the IndexOf is zero indexed
+                else
+                {
+                    foundValue++;
+                }
+
+                // Move the returnValue along by an order of magnitude and add the new found value
+                returnValue *= 10;
+                returnValue += foundValue;
+            }
+            return returnValue;
+        }
+
+        private class SubstituteExample : IExample<(string key, string code), int>
+        {
+            private (string key, string code) _input;
+            private int _output;
+
+            public (string key, string code) Inputs
+            {
+                get => _input;
+                set => _input = value;
+            }
+            public int Output
+            {
+                get => _output;
+                set => _output = value;
             }
 
+            public SubstituteExample((string key, string code) inputs, int output)
+            {
+                Inputs = inputs;
+                Output = output;
+            }
         }
     }
 }

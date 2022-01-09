@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    class ATaleOfThreeCities : IProblem
+    class ATaleOfThreeCities : IDisplayableProblem, ITestableExamples<(int[], int[], int[], int[], int[], int[]), double>
     {
         public string Name => "A Tale of Three Cities";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/1499/3281/3543/2/1499";
@@ -49,7 +51,18 @@ namespace TopCoderSingles.Practice_Problems
                 return shortestDistance;
             }
 ";
-        public IExample[] Examples => new IExample[]
+
+        public GenericTester<(int[], int[], int[], int[], int[], int[]), double> ATaleOfThreeCitiesTester = new GenericTester<(int[], int[], int[], int[], int[], int[]), double>();
+        public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await ATaleOfThreeCitiesTester.TestExamplesOnceTask(this, token, progress);
+        }
+        public async Task<string> TestExamplesForAverageTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await ATaleOfThreeCitiesTester.TestExamplesForAverageTask(this, token, progress);
+        }
+
+        public IExample<(int[], int[], int[], int[], int[], int[]), double>[] Examples => new ATaleOfThreeCitiesExample[]
 {
             // The tunnel connecting the subway station in city A at(0,2) with the subway station in city C at(1,3) has a length of about 1.41
             // and the tunnel connecting the subway station in city A at(0,1) with the subway station in city B at(2,1) has a length of 2.
@@ -78,58 +91,72 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{10,20,30,40,50,60,70,80,90,100}),
                 50.323397776611024)
 };
-        public class ATaleOfThreeCitiesExample : ExampleBase<(int[], int[], int[], int[], int[], int[]), double>
+        public bool TestExample(IExample<(int[], int[], int[], int[], int[], int[]), double> example)
         {
-            public ATaleOfThreeCitiesExample((int[], int[], int[], int[], int[], int[]) inputs, double correctOutput) : base(inputs, correctOutput)
-            {
-            }
+            double output = Connect(example.Inputs.Item1, example.Inputs.Item2, example.Inputs.Item3, example.Inputs.Item4, example.Inputs.Item5, example.Inputs.Item6);
+            // Tweak output to allow for rounding differences since TopCoder allows these to pass
+            return Math.Round(output - example.Output, 13) == 0;
+        }
+        double Connect(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy)
+        {
+            // Task:
+            // ax and ay are the positions of subway stations in A
+            // bx and by are the positions of subway stations in A
+            // cx and cy are the positions of subway stations in A
 
-            public override bool TestExample()
-            {
-                double output = connect(Inputs.Item1, Inputs.Item2, Inputs.Item3, Inputs.Item4, Inputs.Item5, Inputs.Item6);
-                // Tweak output to allow for rounding differences since TopCoder allows these to pass
-                return Math.Round(output - CorrectOutput, 13) == 0 ? true : false;
-            }
+            // Find the shortest possible distance between any station in A and B, B and C and A and C
 
-            double connect(int[] ax, int[] ay, int[] bx, int[] by, int[] cx, int[] cy)
-            {
-                // Task:
-                // ax and ay are the positions of subway stations in A
-                // bx and by are the positions of subway stations in A
-                // cx and cy are the positions of subway stations in A
+            // Return the sum of the two shortest distances
 
-                // Find the shortest possible distance between any station in A and B, B and C and A and C
-
-                // Return the sum of the two shortest distances
-
-                List<double> minDistanceBetween = new List<double>()
+            List<double> minDistanceBetween = new List<double>()
                 {
-                    minDistanceBetweenCities(ax, ay, bx, by),
-                    minDistanceBetweenCities(bx, by, cx, cy),
-                    minDistanceBetweenCities(ax, ay, cx, cy)
+                    MinDistanceBetweenCities(ax, ay, bx, by),
+                    MinDistanceBetweenCities(bx, by, cx, cy),
+                    MinDistanceBetweenCities(ax, ay, cx, cy)
                 };
 
-                minDistanceBetween.Remove(minDistanceBetween.Max());
+            minDistanceBetween.Remove(minDistanceBetween.Max());
 
-                return minDistanceBetween.Sum();
+            return minDistanceBetween.Sum();
+        }
+        double MinDistanceBetweenCities(int[] city1x, int[] city1y, int[] city2x, int[] city2y)
+        {
+            double shortestDistance = 0;
+
+            for (int i = 0; i < city1x.Length; i++)
+            {
+                for (int j = 0; j < city2x.Length; j++)
+                {
+                    double distance = Math.Sqrt(Math.Pow(city1x[i] - city2x[j], 2) + Math.Pow(city1y[i] - city2y[j], 2));
+
+                    if ((i == 0 && j == 0) || (distance < shortestDistance))
+                        shortestDistance = distance;
+                }
             }
 
-            double minDistanceBetweenCities(int[] city1x, int[] city1y, int[] city2x, int[] city2y)
+            return shortestDistance;
+        }
+
+        public class ATaleOfThreeCitiesExample : IExample<(int[], int[], int[], int[], int[], int[]), double>
+        {
+            private (int[], int[], int[], int[], int[], int[]) _inputs;
+            private double _output;
+
+            public (int[], int[], int[], int[], int[], int[]) Inputs
             {
-                double shortestDistance = 0;
+                get => _inputs;
+                set => _inputs = value;
+            }
+            public double Output
+            {
+                get => _output;
+                set => _output = value;
+            }
 
-                for (int i = 0; i < city1x.Length; i++)
-                {
-                    for (int j = 0; j < city2x.Length; j++)
-                    {
-                        double distance = Math.Sqrt(Math.Pow(city1x[i] - city2x[j], 2) + Math.Pow(city1y[i] - city2y[j], 2));
-
-                        if ((i == 0 && j == 0) || (distance < shortestDistance))
-                            shortestDistance = distance;
-                    }
-                }
-
-                return shortestDistance;
+            public ATaleOfThreeCitiesExample((int[], int[], int[], int[], int[], int[]) inputs, double output)
+            {
+                Inputs = inputs;
+                Output = output;
             }
         }
     }

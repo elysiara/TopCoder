@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TopCoderSingles.Practice_Problems
 {
-    public class TurretDefense : IProblem
+    public class TurretDefense : IDisplayableProblem, ITestableExamples<(int[] xs, int[] ys, int[] times), int>
     {
         public string Name => "Turret Defense";
         public string Link => "https://arena.topcoder.com/#/u/practiceCode/1347/2153/2323/1/1347";
@@ -37,7 +39,18 @@ namespace TopCoderSingles.Practice_Problems
             return -1;
         }
 ";
-        public IExample[] Examples => new TurretDefenseExample[]
+
+        public GenericTester<(int[] xs, int[] ys, int[] times), int> TurretDefenseTester = new GenericTester<(int[] xs, int[] ys, int[] times), int>();
+        public async Task<string> TestExamplesOnceTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await TurretDefenseTester.TestExamplesOnceTask(this, token, progress);
+        }
+        public async Task<string> TestExamplesForAverageTask(CancellationToken token, IProgress<int> progress = null)
+        {
+            return await TurretDefenseTester.TestExamplesForAverageTask(this, token, progress);
+        }
+
+        public IExample<(int[] xs, int[] ys, int[] times), int>[] Examples => new TurretDefenseExample[]
 {
             new TurretDefenseExample((
                 new int[]{3,5,6},
@@ -70,49 +83,62 @@ namespace TopCoderSingles.Practice_Problems
                 new int[]{100,200,300,400,405}),
                 4)
 };
-        protected class TurretDefenseExample : ExampleBase<(int[] xs, int[] ys, int[] times), int>
+        public bool TestExample(IExample<(int[] xs, int[] ys, int[] times), int> example)
         {
-            public TurretDefenseExample((int[] xs, int[] ys, int[] times) inputs, int correctOutput) : base(inputs, correctOutput)
-            {
-            }
+            return example.Output.Equals(FirstMiss(example.Inputs.xs, example.Inputs.ys, example.Inputs.times));
+        }
+        public int FirstMiss(int[] xs, int[] ys, int[] times)
+        {
+            // Initialise start position and time
+            int startX = 0;
+            int startY = 0;
+            int startTime = 0;
 
-            public override bool TestExample()
+            // For each target, calculate the time window for a successful hit
+            // and compare with the calculated time to fire.
+            for (int i = 0; i < xs.Length; i++)
             {
-                int output = firstMiss(Inputs.xs, Inputs.ys, Inputs.times);
-                return (output.Equals(CorrectOutput));
-            }
+                int changeInTime = (times[i] - startTime);
+                int timeToFire = Math.Abs(xs[i] - startX) + Math.Abs(ys[i] - startY);
 
-            public int firstMiss(int[] xs, int[] ys, int[] times)
-            {
-                // Initialise start position and time
-                int startX = 0;
-                int startY = 0;
-                int startTime = 0;
-
-                // For each target, calculate the time window for a successful hit
-                // and compare with the calculated time to fire.
-                for (int i = 0; i < xs.Length; i++)
+                if (changeInTime < timeToFire)
                 {
-                    int changeInTime = (times[i] - startTime);
-                    int timeToFire = Math.Abs(xs[i] - startX) + Math.Abs(ys[i] - startY);
-
-                    if (changeInTime < timeToFire)
-                    {
-                        // Insufficient time
-                        return i;
-                    }
-                    else
-                    {
-                        // Set up for the next target
-                        startX = xs[i];
-                        startY = ys[i];
-                        startTime = times[i];
-                    }
+                    // Insufficient time
+                    return i;
                 }
-                // All targets were successfully hit
-                return -1;
+                else
+                {
+                    // Set up for the next target
+                    startX = xs[i];
+                    startY = ys[i];
+                    startTime = times[i];
+                }
+            }
+            // All targets were successfully hit
+            return -1;
+        }
+
+        private class TurretDefenseExample : IExample<(int[] xs, int[] ys, int[] times), int>
+        {
+            private (int[] xs, int[] ys, int[] times) _input;
+            private int _output;
+
+            public (int[] xs, int[] ys, int[] times) Inputs
+            {
+                get => _input;
+                set => _input = value;
+            }
+            public int Output
+            {
+                get => _output;
+                set => _output = value;
             }
 
+            public TurretDefenseExample((int[] xs, int[] ys, int[] times) inputs, int output)
+            {
+                Inputs = inputs;
+                Output = output;
+            }
         }
     }
 }
