@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace TopCoderSingles.Practice_Problems
+namespace TopCoderSingles.Helpers
 {
     public class EnumerationExtension
     {

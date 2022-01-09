@@ -128,7 +128,7 @@
     <Compile Include="Practice Problems\GenericClasses\GenericTester.cs" />
     <Compile Include="Practice Problems\Interfaces\IDisplayableProblem.cs" />
     <Compile Include="Practice Problems\Interfaces\IExample.cs" />
-    <Compile Include="Practice Problems\EnumerationExtension.cs" />
+    <Compile Include="Helpers\EnumerationExtension.cs" />
     <Compile Include="Practice Problems\Hard\AToughGame.cs" />
     <Compile Include="Practice Problems\Interfaces\ITestableExamples.cs" />
     <Compile Include="Practice Problems\Medium\Abacus.cs" />

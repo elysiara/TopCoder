@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Windows.UI.Xaml;
 
-namespace TopCoderSingles.Helper
+namespace TopCoderSingles.Helpers
 {
     public class Command : ICommand
     {

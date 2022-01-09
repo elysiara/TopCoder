@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using TopCoderSingles.Helper;
+using TopCoderSingles.Helpers;
 using TopCoderSingles.Practice_Problems;
 
 namespace TopCoderSingles

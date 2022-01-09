@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TopCoderSingles.Helper
+namespace TopCoderSingles.Helpers
 {
     public class ObservableProperty : INotifyPropertyChanged
     {
